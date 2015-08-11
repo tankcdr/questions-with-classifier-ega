@@ -1,0 +1,26 @@
+/* Copyright IBM Corp. 2015 Licensed under the Apache License, Version 2.0 */
+
+
+.loader {
+
+  // Loader Fallback
+  &--fallback {
+    // If SMIL is available
+    .smil & {
+      display: none !important;
+    }
+    // If SMIL is not available
+    .no-smil &,
+    .no-svg & {
+      display: block;
+    }
+  }
+
+  &--svg {
+    // If SMIL or SVG are not available
+    .no-svg &,
+    .no-smil & {
+      display: none !important;
+    }
+  }
+}

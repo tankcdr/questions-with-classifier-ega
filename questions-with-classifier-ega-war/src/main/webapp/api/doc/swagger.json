@@ -1,0 +1,692 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.1-alpha",
+        "title": "Classifier EGA API",
+        "description": "The internal API used by the classifier Engagement Gallery App",
+        "contact": {
+            "name": "Classifier EGA team",
+            "email": "tdb@us.ibm.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        },
+        "termsOfService": "TBD TOS"
+    },
+    "basePath": "/api/v1",
+    "tags": [
+        {
+            "name": "Status",
+            "description": "Query the status of the server"
+        },
+        {
+            "name": "Conversation",
+            "description": "Ask Watson a question"
+        },
+        {
+            "name": "Manage",
+            "description": "Manage the application"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/status": {
+            "get": {
+                "deprecated": true,
+                "tags": [
+                    "Status"
+                ],
+                "description": "Check if the REST API is available",
+                "operationId": "getStatus",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The REST API is available"
+                    },
+                    "default": {
+                        "description": "The REST API is down"
+                    }
+                }
+            }
+        },
+        "/conversation": {
+            "post": {
+                "tags": [
+                    "Conversation"
+                ],
+                "summary": "Start a new conversation with Watson",
+                "operationId": "startConversation",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Conversation started sucessfully",
+                        "schema": {
+                            "$ref": "#/definitions/Greeting"
+                        }
+                    }
+                }
+            }
+        },
+        "/conversation/{conversationId}": {
+            "post": {
+                "tags": [
+                    "Conversation"
+                ],
+                "summary": "Submit a question to the classifier service",
+                "operationId": "askQuestion",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "conversationId",
+                        "description": "The conversationId for this message.",
+                        "required": true,
+                        "type": "string",
+                        "in": "path"
+                    },
+                    {
+                        "name": "message",
+                        "description": "The message for which a response is being requested.",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/MessageRequest"
+                        },
+                        "in": "body"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message received",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "conversationId is missing or invalid"
+                    },
+                    "500": {
+                        "description": "An error occurred communicating with the classifier service",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/conversation/{conversationId}/topQuestions": {
+            "get": {
+                "tags": [
+                    "Conversation"
+                ],
+                "summary": "Get the list of top questions",
+                "operationId": "getTopQuestions",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "conversationId",
+                        "description": "The current conversationId",
+                        "required": true,
+                        "type": "string",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the top questions",
+                        "schema": {
+                            "$ref": "#/definitions/TopQuestionsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "conversationId is missing or invalid"
+                    }
+                }
+            }
+        },
+        "/feedback": {
+            "post": {
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "provide feedback on a response",
+                "operationId": "feedback",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "feedback",
+                        "description": "The feedback data to be associated with the response.",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Feedback"
+                        },
+                        "in": "body"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Feedback updated sucessfully"
+                    },
+                    "400": {
+                        "description": "conversationId is missing or invalid"
+                    }
+                }
+            }
+        },
+        "/manage/answer": {
+            "get": {
+                "tags": [
+                    "Manage"
+                ],
+                "summary": "Get a list of currently available answers",
+                "operationId": "getAnswers",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved all answers",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ManagedAnswer"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Username or password incorrect"
+                    },
+                    "default": {
+                        "description": "A server error occurred fetching answers",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Manage"
+                ],
+                "summary": "Add one or more answers to the currently available answers",
+                "operationId": "createAnswer",
+                "parameters": [
+                    {
+                        "name": "answers",
+                        "description": "The answers to populate",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ManagedAnswer"
+                            }
+                        },
+                        "in": "body"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Answers added sucessfully"
+                    },
+                    "401": {
+                        "description": "Username or password incorrect"
+                    },
+                    "default": {
+                        "description": "An error occurred",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/manage/answer/{className}": {
+            "get": {
+                "tags": [
+                    "Manage"
+                ],
+                "summary": "Retrieve the details of an answer",
+                "operationId": "getAnswer",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "className",
+                        "description": "The class name of the answer",
+                        "required": true,
+                        "type": "string",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Answer successfully retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/ManagedAnswer"
+                        }
+                    },
+                    "401": {
+                        "description": "Username or password incorrect"
+                    },
+                    "404": {
+                        "description": "Answer not found"
+                    },
+                    "default": {
+                        "description": "An error occurred",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Manage"
+                ],
+                "summary": "Update an answer",
+                "operationId": "updateAnswer",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "className",
+                        "description": "The class name of the answer",
+                        "required": true,
+                        "type": "string",
+                        "in": "path"
+                    },
+                    {
+                        "name": "answer",
+                        "description": "The answer to update",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ManagedAnswer"
+                        },
+                        "in": "body"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Answer updated successfully"
+                    },
+                    "401": {
+                        "description": "Username or password incorrect"
+                    },
+                    "404": {
+                        "description": "Answer not found"
+                    },
+                    "default": {
+                        "description": "An error occurred",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Manage"
+                ],
+                "summary": "Delete an answer",
+                "operationId": "deleteAnswer",
+                "parameters": [
+                    {
+                        "name": "className",
+                        "description": "The class name of the answer",
+                        "required": true,
+                        "type": "string",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Answer successfully deleted"
+                    },
+                    "401": {
+                        "description": "Username or password incorrect"
+                    },
+                    "404": {
+                        "description": "Answer not found"
+                    },
+                    "default": {
+                        "description": "An error occurred",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/manage/tracking": {
+            "get": {
+                "tags": [
+                    "Manage"
+                ],
+                "summary": "Retrieve the event tracking logs",
+                "operationId": "getTrackingEvents",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "conversationId",
+                        "type": "string",
+                        "in": "query"
+                    },
+                    {
+                        "name": "page",
+                        "type": "integer",
+                        "in": "query"
+                    },
+                    {
+                        "name": "perPage",
+                        "type": "integer",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tracking events successfully retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/TrackingResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Username or password incorrect"
+                    },
+                    "400": {
+                        "description": "Bad request.  Likely caused by an invalid query parameter."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ManagedAnswer": {
+            "required": [
+                "className",
+                "type",
+                "text",
+                "canonicalQuestion"
+            ],
+            "properties": {
+                "className": {
+                    "type": "string",
+                    "description": "The class name to use to uniquely identify this answer"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of answer this object represents",
+                    "enum": [
+                        "TEXT",
+                        "IMAGE",
+                        "VIDEO",
+                        "MAP"
+                    ]
+                },
+                "text": {
+                    "type": "string",
+                    "description": "The answer text corresponding to the class returned from the classifier"
+                },
+                "canonicalQuestion": {
+                    "type": "string",
+                    "description": "The canonical question for this answer"
+                }
+            }
+        },
+        "Answer": {
+            "required": [
+                "type",
+                "text",
+                "confidence",
+                "confidenceCategory",
+                "canonicalQuestion"
+            ],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "The type of answer this object represents",
+                    "enum": [
+                        "TEXT",
+                        "IMAGE",
+                        "VIDEO",
+                        "MAP"
+                    ]
+                },
+                "text": {
+                    "type": "string",
+                    "description": "The answer text to be displayed to the user"
+                },
+                "confidence": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "confidenceCategory": {
+                    "type": "string",
+                    "description": "The confidence category this answer is considered as",
+                    "enum": [
+                        "HIGH",
+                        "LOW"
+                    ]
+                },
+                "canonicalQuestion": {
+                    "type": "string",
+                    "description": "The canonical question for this answer"
+                },
+                "className": {
+                    "type": "string",
+                    "description": "The class returned from the classifier"
+                }
+            }
+        },
+        "ErrorResponse": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Greeting": {
+            "required": [
+                "conversationId",
+                "topQuestions"
+            ],
+            "properties": {
+                "conversationId": {
+                    "type": "string",
+                    "description": "conversation id representing the newly started conversation"
+                },
+                "topQuestions": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Question"
+                    }
+                }
+            },
+            "xml": {
+                "name": "Greeting"
+            }
+        },
+        "MessageRequest": {
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "incoming message for which a response is requested."
+                },
+                "referrer": {
+                    "$ref": "#/definitions/MessageRequestReferrer"
+                }
+            },
+            "xml": {
+                "name": "MessageRequest"
+            }
+        },
+        "MessageRequestReferrer": {
+            "required": [
+              "source"
+            ],
+            "properties": {
+                "messageId": {
+                    "type": "string",
+                    "description": "If the question is a refinement of a previous question, this is the messageId of that previous question"
+                },
+                "source": {
+                    "type": "string",
+                    "enum": [
+                        "REFINEMENT",
+                        "TOP_QUESTION"
+                    ],
+                    "description": "Where the request came from"
+                }
+            }
+        },
+        "MessageResponse": {
+            "properties": {
+                "messageId": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "responses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Answer"
+                    }
+                }
+            },
+            "xml": {
+                "name": "MessageResponse"
+            }
+        },
+        "Feedback": {
+            "xml": {
+                "name": "Feedback"
+            },
+            "required": [
+                "conversationId",
+                "messageId",
+                "action"
+            ],
+            "properties": {
+                "conversationId": {
+                    "type": "string"
+                },
+                "messageId": {
+                    "type": "string"
+                },
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "HELPFUL",
+                        "UNHELPFUL",
+                        "NO_HELPFUL_REFINEMENTS",
+                        "FORUM_REDIRECT"
+                    ]
+                }
+            }
+        },
+        "TopQuestionsResponse": {
+            "required": [
+                "topQuestions"
+            ],
+            "properties": {
+                "topQuestions": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Question"
+                    }
+                }
+            }
+        },
+        "Question": {
+            "required": [
+                "questionText"
+            ],
+            "properties": {
+                "questionText": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                }
+            }
+        },
+        "TrackingResponse": {
+            "properties" : {
+                "events" : {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TrackingEvent"
+                    }
+                }
+            }
+        },
+        "TrackingEvent": {
+            "discriminator": "eventType",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "QUERY",
+                        "IMPRESSION",
+                        "CLICK"
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "user": {
+                    "type": "string"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "referral": {
+                    "type": "string"
+                },
+                "args": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

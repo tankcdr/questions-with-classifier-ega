@@ -1,0 +1,838 @@
+<!--  Copyright IBM Corp. 2015                                                 -->
+<!--                                                                           -->
+<!--  Licensed under the Apache License, Version 2.0 (the "License");          -->
+<!--  you may not use this file except in compliance with the License.         -->
+<!--  You may obtain a copy of the License at                                  -->
+<!--                                                                           -->
+<!--      http://www.apache.org/licenses/LICENSE-2.0                           -->
+<!--                                                                           -->
+<!--  Unless required by applicable law or agreed to in writing, software      -->
+<!--  distributed under the License is distributed on an "AS IS" BASIS,        -->
+<!--  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. -->
+<!--  See the License for the specific language governing permissions and      -->
+<!--  limitations under the License.                                           -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+  	<groupId>com.ibm.watson.app.gallery</groupId>
+  	<artifactId>questions-with-classifier-ega</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<relativePath>../questions-with-classifier-ega</relativePath>
+  </parent>
+  
+  <artifactId>questions-with-classifier-ega-test</artifactId>
+  <packaging>war</packaging>
+  
+  <properties>
+    <skipITs>false</skipITs>
+    <derby.lib>${project.build.directory}/lib/derby</derby.lib>
+    <derby.version>10.10.2.0</derby.version>
+    <openjpa.version>2.2.0</openjpa.version>
+    
+    <!-- Name of the database service that will be created if it does not exist or bound if it does -->
+    <!-- This is used for both local and BlueMix deployments -->
+    <db.service.name>questions-with-classifier-ega-db</db.service.name>
+    
+    <!-- Credentials used to restrict access to the manage API. -->
+    <!-- The password should be changed for production deployments. -->
+    <manage.api.user>apiuser</manage.api.user>
+    <manage.api.password>passw0rd</manage.api.password>
+    
+    <application.path>${project.build.directory}/war/questions-with-classifier-ega-war.war</application.path>
+    
+    <selenium.grid.url>http://wd3p311.swg.usma.ibm.com:4444/wd/hub</selenium.grid.url>
+    <selenium.full.suite>false</selenium.full.suite>
+  </properties>
+  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </pluginRepository>
+  </pluginRepositories>
+  
+  <build>
+    <testResources>
+      <testResource>
+        <directory>src/it/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>config/config.properties</include>
+        </includes>
+      </testResource>
+    </testResources>
+  
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.9.1</version>
+        <executions>
+          <execution>
+            <!-- Add source directory for integration tests -->
+            <id>add-test-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/it/java</source>
+              </sources>
+            </configuration>
+          </execution>
+          <execution>
+            <!-- Add resource directory for integration tests -->
+            <id>add-test-resource</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-resource</goal>
+            </goals>
+            <configuration>
+              <resources>
+                <resource>
+                  <directory>src/it/resources</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <!-- For now, ignore missing web.xml (remove this once a proper war is being built) -->
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <warName>questions-with-classifier-ega-test</warName>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!-- Liberty plugin for running integration tests without deploying 
+          to Bluemix. Installs Liberty if it doesn't already exist, creates a server 
+          if it doesn't already exist, starts the server and deploys the app, and stops 
+          the server after the integration tests complete. See https://github.com/WASdev/ci.maven -->
+        <groupId>net.wasdev.wlp.maven.plugins</groupId>
+        <artifactId>liberty-maven-plugin</artifactId>
+        <!-- Only the new SNAPSHOT releases support installing Liberty 
+          from the public repository -->
+        <version>1.1-SNAPSHOT</version>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.18.1</version>
+          <configuration>
+            <redirectTestOutputToFile>true</redirectTestOutputToFile>
+            <skipITs>${skipITs}</skipITs>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+  
+  <profiles>
+    <profile>
+      <!-- This profile is only activated when running in Eclipse. It doesn't affect the build itself- it only stores Eclipse m2e settings. -->
+      <id>only-in-eclipse-add-context-root</id>
+      <activation>
+        <property>
+          <name>m2e.version</name>
+        </property>
+      </activation>
+      <properties>
+        <m2eclipse.wtp.contextRoot>/test</m2eclipse.wtp.contextRoot>
+      </properties>
+    </profile>
+    <profile>
+      <id>Liberty-is-running</id>
+      <!-- Running a clean while Liberty is running will either fail or leave
+           the target directory in a bad state, depending on the operating system.
+           This detects whether a server is running and stops it during pre-clean.
+      -->
+      <activation>
+        <file>
+          <exists>target/liberty/wlp/usr/servers/defaultServer/workarea/.sRunning</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>net.wasdev.wlp.maven.plugins</groupId>
+            <artifactId>liberty-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>stop-liberty-before-clean</id>
+                <goals>
+                  <goal>stop-server</goal>
+                </goals>
+                <phase>pre-clean</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>Liberty</id>
+
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+
+      <properties>
+        <liberty.app.url>http://localhost:${liberty.http.port}</liberty.app.url>
+      </properties>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.10</version>
+            <executions>
+              <!-- Database: 1) Copy derby JARs to target dir, these are referenced as a JDBC driver in the Liberty server.xml -->
+              <execution>
+                <id>copy-derby-jars</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.apache.derby</groupId>
+                      <artifactId>derby</artifactId>
+                      <version>${derby.version}</version>
+                      <type>jar</type>
+                      <overWrite>true</overWrite>
+                      <destFileName>derby.jar</destFileName>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.apache.derby</groupId>
+                      <artifactId>derbyclient</artifactId>
+                      <version>${derby.version}</version>
+                      <type>jar</type>
+                      <overWrite>true</overWrite>
+                      <destFileName>derbyclient.jar</destFileName>
+                    </artifactItem>
+                  </artifactItems>
+                  <outputDirectory>${derby.lib}</outputDirectory>
+                </configuration>
+              </execution>
+              <!-- Database: 2) Unpack entities so they can be enhanced -->
+              <execution>
+                <id>unpack.entities</id>
+                <phase>process-sources</phase>
+                <goals>
+                  <goal>unpack</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>${project.parent.groupId}</groupId>
+                      <artifactId>questions-with-classifier-ega-war</artifactId>
+                      <version>${project.parent.version}</version>
+                      <classifier>classes</classifier>
+                      <type>jar</type>
+                      <overWrite>true</overWrite>
+                      <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                      <includes>**/entities/**/*.class</includes>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+              <execution>
+                <id>copy-war-to-deploy-to-liberty</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>${project.parent.groupId}</groupId>
+                      <artifactId>questions-with-classifier-ega-war</artifactId>
+                      <version>${project.parent.version}</version>
+                      <type>war</type>
+                      <destFileName>questions-with-classifier-ega-war.war</destFileName>
+                    </artifactItem>
+                  </artifactItems>
+                  <outputDirectory>${project.build.directory}/war</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Database: 3) Enhance classes with OpenJPA -->
+          <plugin>
+            <groupId>org.apache.openjpa</groupId>
+            <artifactId>openjpa-maven-plugin</artifactId>
+            <version>2.2.0</version>
+            <configuration>
+              <includes>**/entities/**/*.class</includes>
+              <addDefaultConstructor>true</addDefaultConstructor>               
+              <enforcePropertyRestrictions>true</enforcePropertyRestrictions>
+            </configuration>
+            <executions>
+              <execution>
+                <id>enhancer</id>
+                <phase>process-classes</phase>
+                  <goals>
+                  <goal>enhance</goal>
+                </goals>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.openjpa</groupId>
+                <artifactId>openjpa</artifactId>
+                <!-- set the version to be the same as the level in your runtime -->
+                <version>${openjpa.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.gmaven</groupId>
+            <artifactId>gmaven-plugin</artifactId>
+            <version>1.5</version>
+            <configuration>
+              <providerSelection>2.0</providerSelection>
+            </configuration>
+            <executions>
+              <execution>
+                <id>escape.backslashes.for.bootstrap.properties</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <source>
+                    pom.properties['derby.lib.escaped']=pom.properties['derby.lib'].replace('\\\','\\\\\\');
+                    pom.properties['application.path.escaped']=pom.properties['application.path'].replace('\\\', '\\\\\\');
+                  </source>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>1.9.1</version>
+            <executions>
+              <execution>
+                <!-- Reserve a random free port for the Liberty HTTP port -->
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>reserve-network-port</goal>
+                </goals>
+                <configuration>
+                  <portNames>
+                    <portName>liberty.http.port</portName>
+                  </portNames>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.7</version>
+            <executions>
+              <execution>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <resources>
+                    <resource>
+                      <directory>src/it/resources</directory>
+                      <filtering>true</filtering>
+                      <includes>
+                        <include>server.mocked.env</include>
+                      </includes>
+                    </resource>
+                  </resources>
+                  <outputDirectory>target/pre-integration-test-filtered-resources</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>net.wasdev.wlp.maven.plugins</groupId>
+            <artifactId>liberty-maven-plugin</artifactId>
+            <configuration>
+              <install>
+                <!-- Find the text after D/N on this page: 
+                     http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/8.5.5.5/lafiles/runtime/en.html
+                -->
+                <licenseCode>L-MCAO-9SYMVC</licenseCode>
+                <version>8.5.5_05</version>
+              </install>
+              <configFile>${basedir}/src/it/resources/server.xml</configFile>
+              <skip>${skipITs}</skip>
+              <bootstrapProperties>
+                <!-- Corresponds to variable references in src/it/resources/server.xml -->
+                <httpPort>${liberty.http.port}</httpPort>
+                <derbyLibraryDir>${derby.lib.escaped}</derbyLibraryDir>
+                <dbServiceName>${db.service.name}</dbServiceName>
+                <applicationWar>${application.path.escaped}</applicationWar>
+              </bootstrapProperties>
+              <serverEnv>${basedir}/target/pre-integration-test-filtered-resources/server.mocked.env</serverEnv>
+            </configuration>
+            <executions>
+              <execution>
+                <id>Start Liberty server and deploy app</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>create-server</goal>
+                  <goal>stop-server</goal>
+                  <goal>start-server</goal>
+                </goals>
+                <configuration>
+                  <applications>questions-with-classifier-ega-war</applications>
+                </configuration>
+              </execution>
+              <execution>
+                <id>Deploy test WAR</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>deploy</goal>
+                </goals>
+                <configuration>
+                  <appArtifact>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>${project.artifactId}</artifactId>
+                    <version>${project.version}</version>
+                    <type>war</type>
+                  </appArtifact>
+                </configuration>
+              </execution>
+              <execution>
+                <id>Stop Liberty server</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop-server</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.4.0</version>
+            <executions>
+              <execution>
+                <id>Populate Answer Store</id>
+                <phase>pre-integration-test</phase>
+              <goals>
+                <goal>java</goal>
+              </goals>
+                <configuration>
+                  <mainClass>com.ibm.watson.app.qaclassifier.tools.PopulateAnswerStore</mainClass>
+                  <arguments>
+                    <argument>-f</argument>
+                    <argument>/answers.csv</argument>
+                    <argument>-d</argument>
+                    <argument>/answers</argument>
+                    <argument>-l</argument>
+                    <argument>${liberty.app.url}</argument>
+                    <argument>-u</argument>
+                    <argument>${manage.api.user}</argument>
+                    <argument>-p</argument>
+                    <argument>${manage.api.password}</argument>
+                  </arguments>
+                  <!-- Not entirely clear why this is required, but without this maven logs an error. -->
+                  <cleanupDaemonThreads>false</cleanupDaemonThreads>
+                  <skip>${skipITs}</skip>
+                </configuration>
+              </execution>
+              <execution>
+                <id>Set up mock classifier</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+                <configuration>
+                  <mainClass>com.ibm.watson.app.qaclassifier.AddQuestionsToMockClassifier</mainClass>
+                  <arguments>
+                    <argument>-f</argument>
+                    <argument>/training.json</argument>
+                    <argument>-l</argument>
+                    <argument>${liberty.app.url}</argument>
+                    <argument>-u</argument>
+                    <argument>${manage.api.user}</argument>
+                    <argument>-p</argument>
+                    <argument>${manage.api.password}</argument>
+                  </arguments>
+                  <classpathScope>test</classpathScope>
+                  <skip>${skipITs}</skip>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>Integration tests on local Liberty</id>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+                <configuration>
+                  <reportsDirectory>${project.build.directory}/failsafe-reports-liberty</reportsDirectory>
+                  <summaryFile>${project.build.directory}/failsafe-reports-liberty/failsafe-summary.xml</summaryFile>
+                  <excludes>
+                    <exclude>**/selenium/</exclude>
+                  </excludes>
+                  <systemPropertyVariables>
+                    <app.url>${liberty.app.url}</app.url>
+                    <selenium.grid.url>${selenium.grid.url}</selenium.grid.url>
+                    <derby.stream.error.file>${project.build.directory}/derby.log</derby.stream.error.file>
+                    <manage.api.password>${manage.api.password}</manage.api.password>
+                  </systemPropertyVariables>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>Bluemix</id>
+
+      <properties>
+        <!-- User is required to specify the app name. Will be done automatically in CI. -->
+        <!-- This is the name of the app that will be created in BlueMix -->
+        <bluemix.appname></bluemix.appname>
+        
+        <!-- This is the org and space where the app and its services will be deployed in BlueMix -->
+        <bluemix.org>Watson-Platform-CSF-Dev</bluemix.org>
+        <bluemix.space>WGA</bluemix.space>
+        
+        <!-- This is the name of the classifier service that will be created if it does not exist or bound if it does -->
+        <classifier.service.name>questions-with-classifier-ega-classifier</classifier.service.name>
+
+        <!-- No changes should be needed below this line for external testing -->
+        <!-- API endpoint needed to execute the cloud foundry commands -->
+        <bluemix.server.api.url>https://api.stage1.ng.bluemix.net</bluemix.server.api.url>
+        
+        <!-- URL of your app once deployed, built off of the app name specified in a previous property -->
+        <bluemix.app.url>http://${bluemix.appname}.stage1.mybluemix.net</bluemix.app.url>
+        
+        <!-- Label of the classifier service, this could be different depending on your BlueMix env -->
+        <classifier.service.label>natural_language_classifier.dev</classifier.service.label>
+      </properties>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.10</version>
+            <executions>
+              <execution>
+                <id>copy-zip-to-deploy-to-bluemix</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>${project.parent.groupId}</groupId>
+                      <artifactId>questions-with-classifier-ega-war</artifactId>
+                      <version>${project.parent.version}</version>
+                      <type>zip</type>
+                      <destFileName>questions-with-classifier-ega-war.zip</destFileName>
+                    </artifactItem>
+                  </artifactItems>
+                  <outputDirectory>${project.build.directory}/zip</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.cloudfoundry</groupId>
+            <artifactId>cf-maven-plugin</artifactId>
+            <version>1.1.1</version>
+            <configuration>
+              <server>bluemix</server>
+              <target>${bluemix.server.api.url}</target>
+              <org>${bluemix.org}</org>
+              <space>${bluemix.space}</space>
+              <appname>${bluemix.appname}</appname>
+              <path>${project.build.directory}/zip/questions-with-classifier-ega-war.zip</path>
+              <services>
+                <service>
+                  <name>${classifier.service.name}</name>
+                  <label>${classifier.service.label}</label>
+                  <plan>free</plan>
+                </service>
+                <service>
+                  <name>${db.service.name}</name>
+                  <label>sqldb</label>
+                  <plan>sqldb_free</plan>
+                </service>
+              </services>       
+              
+              <env>
+                <!-- While we deploy in stage 1, we need to point to the classifier service in bluemix labs -->
+                <SERVICES_OVERRIDE>{"natural_language_classifier.dev": [{"name": "app-classifier-bluemix-labs","label": "natural_language_classifier","plan": "free","credentials": {"url": "https://gateway.watsonplatform.net/natural-language-classifier-beta/api","username": "78237ebc-965e-45e5-9ee7-13e88b710374","password": "MloM5k7r6ZJz"}}]}</SERVICES_OVERRIDE>
+                <MANAGE_API_PASSWORD>${manage.api.password}</MANAGE_API_PASSWORD>
+              </env>
+                     
+            </configuration>
+            <executions>
+              <execution>
+                <id>deploy-to-bluemix</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>push-only</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>stop-app</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
+              </execution>
+              <!-- This execution is only defined here so 'mvn cf:login' can read the plugin configuration -->
+              <execution>
+                <goals>
+                  <goal>login</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.4.0</version>
+            <executions>
+              <execution>
+                <id>Populate Answer Store</id>
+                <phase>pre-integration-test</phase>
+              <goals>
+                <goal>java</goal>
+              </goals>
+                <configuration>
+                  <mainClass>com.ibm.watson.app.qaclassifier.tools.PopulateAnswerStore</mainClass>
+                  <arguments>
+                    <argument>-f</argument>
+                    <argument>/answers.csv</argument>
+                    <argument>-d</argument>
+                    <argument>/answers</argument>
+                    <argument>-l</argument>
+                    <argument>${bluemix.app.url}</argument>
+                    <argument>-u</argument>
+                    <argument>${manage.api.user}</argument>
+                    <argument>-p</argument>
+                    <argument>${manage.api.password}</argument>
+                  </arguments>
+                  <!-- Not entirely clear why this is required, but without this maven logs an error. -->
+                  <cleanupDaemonThreads>false</cleanupDaemonThreads>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>Integration tests on Bluemix</id>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+                <configuration>
+                  <reportsDirectory>${project.build.directory}/failsafe-reports-bluemix</reportsDirectory>
+                  <summaryFile>${project.build.directory}/failsafe-reports-bluemix/failsafe-summary.xml</summaryFile>
+                  <excludes>
+                    <exclude>**/UserTrackingServiceIT.java</exclude>
+                  </excludes>
+                  <systemPropertyVariables>
+                    <app.url>${bluemix.app.url}</app.url>
+                    <selenium.grid.url>${selenium.grid.url}</selenium.grid.url>
+                    <manage.api.password>${manage.api.password}</manage.api.password>
+                    <selenium.full.suite>${selenium.full.suite}</selenium.full.suite>
+                    <selenium.retries>5</selenium.retries>
+                  </systemPropertyVariables>
+                  <!-- 
+                    These options have the following effect:
+                    
+                    First the test runner forks $forkCount JVMs.  It passes test classes the the JVMS one at a time.
+                    Then if the test class is actually a suite, the suite classes will run in parallel in separate
+                    threads on the same JVM.  (Our selenium tests are written as suites with a class per platform.)
+                   -->
+                  <forkCount>5</forkCount>
+                  <parallel>suitesAndClasses</parallel>
+                  <perCoreThreadCount>false</perCoreThreadCount>
+                  <threadCount>4</threadCount>
+                  <!-- Runs the selenium tests first, which should speed things up a bit when run in parallel -->
+                  <runOrder>reversealphabetical</runOrder>
+                </configuration>
+              </execution>
+              <execution>
+                <id>Log scan</id>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+                <configuration>
+                  <reportsDirectory>${project.build.directory}/failsafe-reports-bluemix-logscan</reportsDirectory>
+                  <summaryFile>${project.build.directory}/failsafe-reports-bluemix-logscan/failsafe-summary.xml</summaryFile>
+                  <testFailureIgnore>true</testFailureIgnore>
+                  <includes>
+                    <include>**/ScanLogs.java</include>
+                  </includes>
+                  <systemPropertyVariables>
+                    <bluemix.user>${cf.username}</bluemix.user>
+                    <bluemix.password>${cf.password}</bluemix.password>
+                    <bluemix.server.api.url>${bluemix.server.api.url}</bluemix.server.api.url>
+                    <bluemix.org>${bluemix.org}</bluemix.org>
+                    <bluemix.space>${bluemix.space}</bluemix.space>
+                    <bluemix.appname>${bluemix.appname}</bluemix.appname>
+                  </systemPropertyVariables>
+                </configuration>
+              </execution>
+            </executions>
+            <dependencies>
+              <!-- Required for run tests in parallel -->
+              <dependency>
+                <groupId>org.apache.maven.surefire</groupId>
+                <artifactId>surefire-junit47</artifactId>
+                <version>2.18.1</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+          <plugin>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <version>1.3.1</version>
+            <executions>
+              <execution>
+                <id>require-property</id>
+                <goals>
+                  <goal>enforce</goal>
+                </goals>
+                <configuration>
+                  <rules>
+                    <requireProperty>
+                      <property>bluemix.appname</property>
+                      <regex>.+</regex>
+                      <regexMessage>You must specify a unique
+                        application name via the bluemix.appname
+                        property when deploying to Bluemix.</regexMessage>
+                    </requireProperty>
+                  </rules>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.4</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
+  <dependencies>
+    <dependency>
+      <groupId>${project.parent.groupId}</groupId>
+      <artifactId>questions-with-classifier-ega-war</artifactId>
+      <version>${project.parent.version}</version>
+      <classifier>classes</classifier>
+    </dependency>
+    <dependency>
+      <groupId>${gallery.common.groupId}</groupId>
+      <artifactId>framework-ega-test</artifactId>
+      <version>${gallery.common.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${gallery.common.groupId}</groupId>
+      <artifactId>framework-ega-tools</artifactId>
+      <version>${gallery.common.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.jayway.restassured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>2.3.4</version>
+      <!-- Compile scope so AddQuestionsToMockClassifier can be run from the workspace -->
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+      <version>1.3</version>
+      <!-- Compile scope so AddQuestionsToMockClassifier can be run from the workspace -->
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>2.46.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.openjpa</groupId>
+      <artifactId>openjpa</artifactId>
+      <version>${openjpa.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>10.10.2.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>1.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.cloudfoundry</groupId>
+      <artifactId>cloudfoundry-client-lib</artifactId>
+      <version>1.1.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

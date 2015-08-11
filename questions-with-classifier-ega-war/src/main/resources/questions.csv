@@ -1,0 +1,357 @@
+"Does the Natural Language Classifier train using all of the data, or does it partition it in some way?",all_training_data_used
+What kind of preprocessing does the classifier perform on its input?,all_training_data_used
+"Does the classifier train using all of the data, or does it partition it in some way?",all_training_data_used
+does the classifier train on all the data or does it hold some out?,all_training_data_used
+does nlclassifier perform random sampling to the training datasets?,all_training_data_used
+Where can I find documentation on the Natural Language Classifier API?,api_documentation
+Where can I find the API documentation?,api_documentation
+What is the API for the Classifier?,api_documentation
+Where can I find documentation on the NL classifier API?,api_documentation
+Where can I find REST API documentation for the NL classifier?,api_documentation
+Where can I view documentation for the classifier API?,api_documentation
+How do I access the classifier API?,api_documentation
+How many instances of the Natural Language Classifier can I create and what does it cost?,billing_and_usage
+How will classifier usage be priced after GA?,billing_and_usage
+How much does it cost to use the Classifier?,billing_and_usage
+How much does it cost?,billing_and_usage
+How much does it cost?,billing_and_usage
+How many classifiers can I train simultaneously?,billing_and_usage
+Is there a limit to the number of classifiers I can create?,billing_and_usage
+What OS does the Natural Language Classifier use and how does it relate to IBM Bluemix?,bluemix_hosted
+What do I do if I want to use the Classifier but I am not building a BlueMix application?,bluemix_hosted
+Is the NL Classifier a bluemix only service?,bluemix_hosted
+Is the NLClassifier available as a Bluemix service?,bluemix_hosted
+What does the NLClassifier have to do with BlueMix?,bluemix_hosted
+Does the NL Classifier run on multiple OS platforms,bluemix_hosted
+How is the NL Classifier deployed in WCTS,bluemix_hosted
+Is this a multi-tenant service?,bluemix_multi_tenant
+Can I choose from different algorithms or request changes to the existing ones?,choose_or_change_algorithm
+Can I choose my own learning algorithm from a list of algorithms offered by this service?,choose_or_change_algorithm
+Can a client request a change in the underlying algorithm ?,choose_or_change_algorithm
+What are the competitors to the Natural Language Classifier and how is it differentiated?,classifier_competitors
+How is Watson NL Classifier different from Google's?,classifier_competitors
+How is the classifier different from the competition?,classifier_competitors
+Has the service been compared to other services which exist in the market ?,classifier_competitors
+What are known competitors to the NLClassifier?,classifier_competitors
+Are there similar products in the market?,classifier_competitors
+What makes it unique?,classifier_competitors
+What differentiates the NLClassifier from its competition?,classifier_competitors
+Is IBM's Classifier better than LUIS?,classifier_competitors
+Where can I find documentation on the Natural Language Classifier service?,classifier_documentation
+Where can I find documentation on the classifier service?,classifier_documentation
+Does the Natural Language Classifier support a combination of NL and rule-based matching techniques currently?,classifier_not_rule_based
+Does the NL classifier support a combination of NL and rule-based matching techniques currently?,classifier_not_rule_based
+Does the Natural Language Classifier service return answer(s) above a certain confidence threshold?,confidence_threshold
+Is it possible to request more than 10 answers from the classifier?,confidence_threshold
+Does the classifier service return answer(s) above a certain confidence threshold?,confidence_threshold
+Who do I contact for issues with Natural Language Classifier?,contact_support
+What kind of support is offered for users of the NLClassifier service?,contact_support
+Is there user support available for the NLClassifier service?,contact_support
+"What did I do wrong, the NL Classifier won't work",contact_support
+Who do I contact for issues with NL Classifier,contact_support
+Why is the NL Classifier not working for me,contact_support
+How do I submit a defect for the NL Classifier,contact_support
+How do I get help with the service?,contact_support
+What happens if the service goes down?,contact_support
+Can I find out who else is using the service so we can help each other?,contact_support
+What is the expected up time for the service once it's created?,contact_support
+What should I do when I have problems with the NLClassifier?,contact_support
+How will users provide positive or negative feedback on the service?,contact_support
+I wonder what would happen if your customers complained even more?,contact_support
+Do I need to worry about cross domain scripting issues using JS to call the service end points,contact_support
+What are the drawbacks of using NLClassifier?,contact_support
+How do I deploy the Natural Language Classifier service?,deployed_in_bluemix
+How is the NL Classifier deployed in development and test environments,deployed_in_bluemix
+How do I install the NLClassifier?,deployed_in_bluemix
+Can I use NLClassifier on the cloud?,deployed_in_bluemix
+What is a good use case for the Natural Language Classifier service?,example_use_cases
+What is the NLClassifier service used for?,example_use_cases
+In what ways would I use the classifier service to build a cognitive application,example_use_cases
+What is the classifier good for?,example_use_cases
+What can my app do with the response from the classifier?,example_use_cases
+What are the generic use cases for NL Classifier?,example_use_cases
+What is an example of a use case for the NL Classifier service?,example_use_cases
+What is the NL Classifier for?,example_use_cases
+What can I do with the NLClassifier?,example_use_cases
+What kind of problem can I solve with NLClassifier?,example_use_cases
+What can NLClassifier help me do?,example_use_cases
+Can the NLClassifier classify tweets?,example_use_cases
+Can I use the NLClassifier service to classify Twitter data?,example_use_cases
+Can the NLClassifier classify FB posts?,example_use_cases
+What's a good example of things that can be classified by this service?,example_use_cases
+What can I classify?,example_use_cases
+What is a good use case for this service?,example_use_cases
+What is a good use case for the NL classifier service?,example_use_cases
+What is the main use for the ML Classifier,example_use_cases
+"Are there atleast 3 use cases which have been provided, which walk a potential client through the different stages of usage",example_use_cases
+Is there a way for me to extend the capabilities of the Natural Language Classifier?,extend_classifier
+"As a developer, is there a way for me to extend the capabilities of the NL Classifier?",extend_classifier
+How extensible is the NL Classifier?,extend_classifier
+How accurate is the Natural Language Classifier and have there been any experiments or test results to share to prove it?,how_accurate
+How good is your classification?,how_accurate
+How accurate is the NLClassifier service?,how_accurate
+How accurate is your classification?,how_accurate
+How accurate is the Classifier?,how_accurate
+How well does the Classifier work?,how_accurate
+What is the performance of the NL Classifier,how_accurate
+Have there been systematic experiments which compare the performance of the service on different datasets,how_accurate
+Are there any tests conducted which measure performance on TREC data / other benchmarks ?,how_accurate
+What's the current precision & recall during training and testing ?,how_accurate
+Is the classifier service really better than just doing a lucene search?,how_accurate
+What accuracy should I expect from the service?,how_accurate
+how accurate are you usually,how_accurate
+how good are you at your job as a classifier?,how_accurate
+How good is the NL Classifier?,how_accurate
+How does the Natural Language Classifier work?,how_classifier_works
+What algorithms does the NL classifier use?,how_classifier_works
+What algorithms does the classifier implement?,how_classifier_works
+What kind of machine learning techniques are used in the classifier service?,how_classifier_works
+What are the underlying technologies exploited by the NL Classifier?,how_classifier_works
+What technology does the classifier service use?,how_classifier_works
+What technology does the classifier service use?,how_classifier_works
+What novel technology is used in the NLClassifier?,how_classifier_works
+What kind of technology does the NL Classifier employ?,how_classifier_works
+How does it work?,how_classifier_works
+How does the Classifier work?,how_classifier_works
+How does the classifier classify,how_classifier_works
+How does the NL Classifier work?,how_classifier_works
+How does the NL Classifier classify text?,how_classifier_works
+What does the classifier classify,how_classifier_works
+what kinds of things do you classify?,how_classifier_works
+what does the classifier classify?,how_classifier_works
+What kind of data can I use the Natural Language Classifier on?,how_classifier_works
+What kind of data can I use the classifier on?,how_classifier_works
+What does the NLClassifier classify?,how_classifier_works
+"In what types of ""classes"" does the NL Classifier classify text?",how_classifier_works
+What is being classified?,how_classifier_works
+What can you classify,how_classifier_works
+what does NLClassifier classify?,how_classifier_works
+How do you measure the quality of the Natural Language Classifier?,how_to_measure_quality
+How do you measure the quality of the NLClassifier?,how_to_measure_quality
+How do you measure the accuracy of the NLClassifier?,how_to_measure_quality
+How do I register for this Natural Language Classifier service?,how_to_register
+Who is authorized to use the NL Classifier service ?,how_to_register
+How do I register for this NL Classifier service?,how_to_register
+How can a partner use NL Classifier Service,how_to_register
+How old must I be to use the NLClassifier?,how_to_register
+Why is it so hard to get credentials?,how_to_register
+How can I retrain and update the model for an existing Natural Language Classifier?,how_to_retrain
+How can I retrain and update the model for an existing classifier?,how_to_retrain
+How can I add new question and answer pairs to the ground truth?,how_to_retrain
+How do I train a Natural Language Classifier?,how_to_train
+Can I choose my own identifiers?,how_to_train
+How do I provide ground truth?,how_to_train
+What kind of inputs does the classifier accept?,how_to_train
+What is the format for JSON input ?,how_to_train
+How do I train it?,how_to_train
+How do I train a classifier?,how_to_train
+How is the classifier trained ?,how_to_train
+What format of the training data does the NLClassifier expect?,how_to_train
+What are the standard inputs to the NL Classifier,how_to_train
+How are the classification buckets defined and registered?,how_to_train
+How was ground truth obtained for training the model?,how_to_train
+What are we classifying based on?,how_to_train
+What is the best way to feed data into the NLClassifier?,how_to_train
+Is a corpus required to use the classifier service?,how_to_train
+Is a classifier trained against question and answer pairs or content ?,how_to_train
+"What type of resources can user provide? (stopwords, synonyms, etc.)",how_to_train
+Do you have any tips for creating the flat file for the classifier?,how_to_train
+When will the Classifier service let you upload a background corpus for word embedding?,how_to_train
+How was the classifier trained?,how_to_train
+How was the NL Classifier trained?,how_to_train
+How do I map intents to answers?,how_to_train
+How do I use the Natural Language Classifier?,how_to_use
+How can I use the NLClassifier service?,how_to_use
+How do I use the NLClassifier?,how_to_use
+How do I use the classifier?,how_to_use
+How can I use your classifier?,how_to_use
+How do I get started with the NLClassifier?,how_to_use
+How do I use the NLClassifier?,how_to_use
+Who should I speak to about using the NL Classifier,how_to_use
+How do I call the classifier from my project?,how_to_use
+How would I use this,how_to_use
+How do I get the output from the NLClassifier?,how_to_use
+How do I use it?,how_to_use
+Is there sample code that uses a Natural Language Classifier?,how_to_use
+What do I need to do in order to use the NL Classifier,how_to_use
+Is there any sample code for building a bluemix service that exploits the NL Classifier?,how_to_use
+Where can I learn how to use the NLClassifier?,how_to_use
+Show me an example of the NLClassifier in action,how_to_use
+Where can I learn about how the classifier service works and how it can help me as a developer?,how_to_use
+What kind of examples should I use for training the NLClassifier?,how_to_use
+Can I see some sample input data?,how_to_use
+Can you show me an example of how to map a Key to a set of question in a flat file?,how_to_use
+Does the Natural Language Classifier improve with use?,improving_classifier
+Does it learn by itself?,improving_classifier
+Can it learn on the job?,improving_classifier
+Does the classifier improve with use?,improving_classifier
+How does the classifier service enable Watson to learn automatically?,improving_classifier
+Is there a mechanism for continuous feedback to allow the classifier to improve itself at runtime?,improving_classifier
+"If the Natural Language Classifier isn't giving the answers I expect, what do I do?",improving_performance
+How can I troubleshoot incorrect answers?,improving_performance
+"If the classifier isn't giving the answers I expect, what do I do?",improving_performance
+How do I debug the service once it's created?,improving_performance
+What other services should I use and how do I integrate them?,integrate_other_services
+How do I integrate the NL Classifier with my other services,integrate_other_services
+How do I integrate the classifier with other services?,integrate_other_services
+What other services should I use with the classifer for the best results?,integrate_other_services
+What are the known problems with the Natural Language Classifier?,known_problems
+Does the NL Classifier service introduce any security issues?,known_problems
+Are there specific areas or issues to be aware of when using the NL Classifier,known_problems
+Does the NL Classifier have limitations I should know about,known_problems
+What are the known problems with NLClassifier?,known_problems
+What kinds of natural language does the NLClassifier have problems with?,known_problems
+Does the Natural Language Classifier work on languages other than english?,languages_supported
+Does the classifier work on languages other than english,languages_supported
+Does the classifier only work for English?,languages_supported
+What languages are supported?,languages_supported
+Does the classifier service support languages other than English?,languages_supported
+Does NLClassifier support Japanese language ?,languages_supported
+Can NLClassifier handle multiple language ?,languages_supported
+What input languages does the NL classifier understand?,languages_supported
+how many languages the the classifer support,languages_supported
+How many languages does NLClassifier support?,languages_supported
+Does the NL classifier offer multi-lingual support?,languages_supported
+Does the classifier support languages other than English?,languages_supported
+What languages does the NL Classifier support?,languages_supported
+What languages does the classifier handle? English only?,languages_supported
+Can I use the NLClassifier if I don't speak English?,languages_supported
+What languages does the NLClassifier support?,languages_supported
+What languages does the classifier support?,languages_supported
+Can the NLClassifier cope with right-to-left writing?,languages_supported
+Can the NLClassifier process logographic writing?,languages_supported
+which language is used,languages_supported
+Does the NL Classifier service perform translation?,languages_supported
+How many words can not match and still have a question match an existing group?,matching_words_in_question_and_class
+"How does the Natural Language Classifier handle misspelled words, bad grammar, improper case, and extra spaces?",misspelling_bad_grammar
+Can the classifier handle misspelling,misspelling_bad_grammar
+How does the classifier handle mispelllled wrds?,misspelling_bad_grammar
+"Does CaSe, grammar bad, question marks or  double  spaces  effect the quality of the classifier?",misspelling_bad_grammar
+What models does the Natural Language Classifier use and can I use my own?,model_used_in_classification
+Does NLClassifier allow for combination of multiple models?,model_used_in_classification
+What models does the classifier use for classification?,model_used_in_classification
+Can I upload my own classifier model to the NLClassifier service?,model_used_in_classification
+How do I create my own custom models?,model_used_in_classification
+How many classification models are available?,model_used_in_classification
+Is two Natural Language Classifiers with smaller training sets better than having one with a bigger training set?,more_samples_produce_better_models
+Why are large training sets better then small ones.,more_samples_produce_better_models
+Is two classifiers with smaller training sets better than having one with a bigger training set?,more_samples_produce_better_models
+Can the user provide his own feature generators?,nlp_features_used
+What NLP features does the classifier use?,nlp_features_used
+What attributes does nl-classifier use for the classification?,nlp_features_used
+What kinds of features are used as signals for classification?,nlp_features_used
+Roughly how many features are the classification models trained over?,nlp_features_used
+Is there an automatic synonym substitution applied to an incoming question to automatically expand it for variations?,nlp_features_used
+How many question variations are required in each class for good accuracy?,optimum_number_training_classes
+How many questions do I need for NL classifier training ?,optimum_number_training_classes
+How much ground truth do you need to achieve a reasonable level of accuracy?,optimum_number_training_classes
+How many examples do I need to train the Natural Language Classifier service?,optimum_number_training_classes
+How many examples do I need to train the NLClassifier service?,optimum_number_training_classes
+How many questions do I need in order to train a classifier?,optimum_number_training_classes
+How much training data do I need?,optimum_number_training_classes
+How much training data do I need?,optimum_number_training_classes
+what is the typical number of categories in nlclassifier ?,optimum_number_training_classes
+How many training instances does nl-classifier need to produce a good classification ?,optimum_number_training_classes
+What is a good ratio of questions to classes in the training data,optimum_number_training_classes
+How many QA pairs do I need to train a classifier?,optimum_number_training_classes
+How much ground truth does it take to train the NLClassifier?,optimum_number_training_classes
+How many good sample questions does the NLClassifier need?,optimum_number_training_classes
+how is  the generalization of the Natural Language Classifier calculated?,overfitting_regularization
+Does NLClassifier evaluate the generalization for my training dataset?,overfitting_regularization
+how is  the generalization of nl-classifier calculated ?,overfitting_regularization
+Does nl-classifer provide the  generalization performance measure /,overfitting_regularization
+How does generalization work?,overfitting_regularization
+Can the Natural Language Classifier identify similar or related classes?,related_or_similar_classes
+Can the classifier identify similar or related classes?,related_or_similar_classes
+What is the output of a request to the Natural Language Classifier?,response_to_classify
+How do I get it to answer a question?,response_to_classify
+What can we expect NL Classifier will return ?,response_to_classify
+What is the output of a request to the NL Classifier ?,response_to_classify
+Does the classifier service API return a ranked list of candidate answers?,response_to_classify
+What is the output of the NL Classifier,response_to_classify
+What is the classifier going to give me back as a response?,response_to_classify
+How do I understand the output from the NLClassifier?,response_to_classify
+Do you rank the matches to a question?,response_to_classify
+Can I classify more than one question at a time?,response_to_classify
+Does the Natural Language Classifier give the same answer every time?,same_answer_every_time
+Does a classifier give the same answer every time?,same_answer_every_time
+Why do I get different results when I train the classifier twice on the same data?,same_answer_every_time
+Why does the Natural Language Classifier return intents instead of answers?,short_text_classifier
+Can the classifier classify documents?,short_text_classifier
+Why does the classifier return intents instead of answers?,short_text_classifier
+How is NLClassifier different from WEA?,short_text_classifier
+How does the classifier service differ from the question and answer service?,short_text_classifier
+How does this compare with WEA?,short_text_classifier
+How do I load my documents into the NLClassifier?,short_text_classifier
+Does the Natural Language Classifier work on structured data?,structured_data
+Do you classify questions or answers?,structured_data
+Does the classifier work on unstructured data,structured_data
+Does the classifier work on structured data,structured_data
+How long does it take for Natural Language Classifier to answer the question?,time_to_classify_question
+How long does it take for NL classifier to answer the question ?,time_to_classify_question
+How long does it take to classify an instance?,time_to_classify_question
+How does the speed of classifying an instance depend on the number of classes?,time_to_classify_question
+How long does a classifier take to classify something?,time_to_classify_question
+What is the average response time of the classifer?,time_to_classify_question
+How does the time taken to compute the match scale with the number of exemplars?,time_to_classify_question
+How long does it take to train a Natural Language Classifier?,time_to_train
+How long does it take to train a classifier?,time_to_train
+How long does it take to train?,time_to_train
+How long does it take to create a classifier?,time_to_train
+How long does it take to train a model?,time_to_train
+How long does training take?,time_to_train
+How long does it take to set up the NLClassifier?,time_to_train
+How long does it take to train a model?,time_to_train
+What is the limit on the number of classes I can use to train the Natural Language Classifier?,training_class_limit
+"How does the algorithm scale in time, i.e. is there a limit to the number of questions that can be classified efficiently?",training_class_limit
+How well does it scale?,training_class_limit
+Does the classifier scale to very large corpora?,training_class_limit
+How much training data can I use?,training_class_limit
+Is there a limit to how much training data I can use?,training_class_limit
+Are there limits to how big or small the training data can be?,training_class_limit
+How many training instances can the Classifier support?,training_class_limit
+How many classes can it support?,training_class_limit
+How many classifications are possible with one classifier model ?,training_class_limit
+How many things can the NLClassifier classify?,training_class_limit
+Is there a maximum allowable number of classes?,training_class_limit
+Is there a limit to the number of classes I can have?,training_class_limit
+What is the maximum number of training instances this service can handle?,training_class_limit
+What's the most amount of classes I should have in the classifier?,training_class_limit
+What is the maximum size of the train data that NL Classifier can handle?,training_class_limit
+What types of questions can be classified by the Natural Language Classifier?,types_of_data_classified
+Are there certain topics with which the NL Classifier works better?,types_of_data_classified
+Does the NLClassifier answer questions?,types_of_data_classified
+What types of questions can be classified by the NL Classifier,types_of_data_classified
+What kinds of questions can I ask the classifier?,types_of_data_classified
+How robust is the service as you test across different domains,types_of_data_classified
+Which domains will the NL Classifier work with?,types_of_data_classified
+What is the Natural Language Classifier service?,what_classifier_does
+What is the NL Classifier service?,what_classifier_does
+What does NLClassifier do?,what_classifier_does
+What does a classifier do?,what_classifier_does
+"What is a ""classifier""?",what_classifier_does
+What is the NLClassifier?,what_classifier_does
+What is the NL Classifier service?,what_classifier_does
+What is the NLClassifier?,what_classifier_does
+What in the world is an NL Classifier,what_classifier_does
+What does the NL Classifier do?,what_classifier_does
+What is the NLClassifier?,what_classifier_does
+What is the watson classifier service?,what_classifier_does
+What is the NL Classifier?,what_classifier_does
+What is the NLClassifier?,what_classifier_does
+What is NL classifier,what_classifier_does
+What does NLClassifier stand for?,what_classifier_does
+What is the NL Classifier service?,what_classifier_does
+What is NL Classifier?,what_classifier_does
+What is it?,what_classifier_does
+What does it do?,what_classifier_does
+what does NLClassifier do?,what_classifier_does
+How can NL classifier service help customers ?,what_classifier_does
+What does NL stand for?,what_does_nl_stand_for
+Why do I want to use the Natural Language Classifier?,why_use_classifier
+Why would I want to use the NL Classifier service  in my app?,why_use_classifier
+What benefit will I get from using the NL Classifier service?,why_use_classifier
+What value does the classifier service bring,why_use_classifier
+Why do I need a Natural Language Classifier?,why_use_classifier
+What are the benefits of the NLClassifier?,why_use_classifier
+Why do I want to use NL Classifier?,why_use_classifier

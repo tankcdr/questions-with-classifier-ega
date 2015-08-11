@@ -1,0 +1,22 @@
+[
+  {
+  	questionText: "What is the Natural Language Classifier service?",
+  	className: "what_classifier_does"
+  },
+  {
+  	questionText: "Why do I want to use the Natural Language Classifier?",
+  	className: "why_use_classifier"
+  },
+  {
+  	questionText: "What languages are supported?",
+  	className: "languages_supported"
+  },
+  {
+  	questionText: "How many examples do I need to train the Natural Language Classifier service?",
+  	className: "optimum_number_training_classes"
+  },
+  {
+  	questionText: "What kind of data can I use the Natural Language Classifier on?",
+  	className: "how_classifier_works"
+  }
+]

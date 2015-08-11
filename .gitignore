@@ -1,0 +1,9 @@
+**/target
+**/bower_components
+**/node
+**/node_modules
+**/webapp/js/bundle.js
+**/webapp/css
+**/bootstrap
+**/_bootstrap*
+**/.DS_Store

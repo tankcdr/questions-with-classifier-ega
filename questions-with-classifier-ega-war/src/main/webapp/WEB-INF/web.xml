@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright IBM Corp. 2015                                                 -->
+<!--                                                                           -->
+<!--  Licensed under the Apache License, Version 2.0 (the "License");          -->
+<!--  you may not use this file except in compliance with the License.         -->
+<!--  You may obtain a copy of the License at                                  -->
+<!--                                                                           -->
+<!--      http://www.apache.org/licenses/LICENSE-2.0                           -->
+<!--                                                                           -->
+<!--  Unless required by applicable law or agreed to in writing, software      -->
+<!--  distributed under the License is distributed on an "AS IS" BASIS,        -->
+<!--  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. -->
+<!--  See the License for the specific language governing permissions and      -->
+<!--  limitations under the License.                                           -->
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+
+  	<display-name>Classifier EGA</display-name>
+  	
+	<persistence-context-ref>
+		<persistence-context-ref-name>com.ibm.watson.app.qaclassifier.db/entitymanager</persistence-context-ref-name>
+		<persistence-unit-name>com.ibm.watson.app.qaclassifier.db</persistence-unit-name>
+	</persistence-context-ref>
+	
+	<resource-ref>
+		<res-ref-name>jdbc/db</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+  	
+	<servlet>
+		<description>Classifier API</description>
+		<servlet-name>Classifier JAX-RS Servlet</servlet-name>
+		<servlet-class>com.ibm.websphere.jaxrs.server.IBMRestServlet</servlet-class>
+		 <init-param>
+           <param-name>javax.ws.rs.Application</param-name>
+           <param-value>com.ibm.watson.app.qaclassifier.ClassifierApplicationImpl</param-value>
+        </init-param>
+		<load-on-startup>1</load-on-startup>
+		<enabled>true</enabled>
+		<async-supported>false</async-supported>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Classifier JAX-RS Servlet</servlet-name>
+		<url-pattern>/api/v1/*</url-pattern>
+	</servlet-mapping>
+
+    <!-- security setup for when deployed in production, not used in development -->	
+    <security-role>
+        <role-name>developer</role-name>
+    </security-role>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>all</web-resource-name>
+            <url-pattern>/api/v1/manage/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>developer</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+</web-app>

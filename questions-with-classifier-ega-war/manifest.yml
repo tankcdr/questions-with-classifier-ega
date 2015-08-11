@@ -1,0 +1,8 @@
+applications:
+- disk_quota: 1024M
+  host: watson-app-qaclassifier
+  name: watson-app-qaclassifier
+  path: watson-app-qaclassifier.war
+  domain: stage1.mybluemix.net
+  instances: 1
+  memory: 512M

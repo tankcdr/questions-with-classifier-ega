@@ -1,0 +1,45 @@
+all_training_data_used,"Does the Natural Language Classifier train using all of the data, or does it partition it in some way?"
+api_documentation,Where can I find documentation on the Natural Language Classifier API?
+billing_and_usage,How many instances of the Natural Language Classifier can I create and what does it cost?
+bluemix_hosted,What OS does the Natural Language Classifier use and how does it relate to IBM Bluemix?
+bluemix_multi_tenant,Is this a multi-tenant service?
+choose_or_change_algorithm,Can I choose from different algorithms or request changes to the existing ones?
+classifier_competitors,What are the competitors to the Natural Language Classifier and how is it differentiated?
+classifier_documentation,Where can I find documentation on the Natural Language Classifier service?
+classifier_not_rule_based,Does the Natural Language Classifier support a combination of NL and rule-based matching techniques currently?
+confidence_threshold,Does the Natural Language Classifier service return answer(s) above a certain confidence threshold?
+contact_support,Who do I contact for issues with Natural Language Classifier?
+deployed_in_bluemix,How do I deploy the Natural Language Classifier service?
+example_use_cases,What is a good use case for the Natural Language Classifier service?
+extend_classifier,Is there a way for me to extend the capabilities of the Natural Language Classifier?
+how_accurate,How accurate is the Natural Language Classifier and have there been any experiments or test results to share to prove it?
+how_classifier_works,How does the Natural Language Classifier work?
+how_to_measure_quality,How do you measure the quality of the Natural Language Classifier?
+how_to_register,How do I register for this Natural Language Classifier service?
+how_to_retrain,How can I retrain and update the model for an existing Natural Language Classifier?
+how_to_train,How do I train a Natural Language Classifier?
+how_to_use,How do I use the Natural Language Classifier?
+improving_classifier,Does the Natural Language Classifier improve with use?
+improving_performance,"If the Natural Language Classifier isn't giving the answers I expect, what do I do?"
+integrate_other_services,What other services should I use and how do I integrate them?
+known_problems,What are the known problems with the Natural Language Classifier?
+languages_supported,Does the Natural Language Classifier work on languages other than english?
+matching_words_in_question_and_class,How many words can not match and still have a question match an existing group?
+misspelling_bad_grammar,"How does the Natural Language Classifier handle misspelled words, bad grammar, improper case, and extra spaces?"
+model_used_in_classification,What models does the Natural Language Classifier use and can I use my own?
+more_samples_produce_better_models,Is two Natural Language Classifiers with smaller training sets better than having one with a bigger training set?
+nlp_features_used,What NLP features does the Natural Language Classifier use?
+optimum_number_training_classes,How many examples do I need to train the Natural Language Classifier service?
+overfitting_regularization,how is  the generalization of the Natural Language Classifier calculated?
+related_or_similar_classes,Can the Natural Language Classifier identify similar or related classes?
+response_to_classify,What is the output of a request to the Natural Language Classifier?
+same_answer_every_time,Does the Natural Language Classifier give the same answer every time?
+short_text_classifier,Why does the Natural Language Classifier return intents instead of answers?
+structured_data,Does the Natural Language Classifier work on structured data?
+time_to_classify_question,How long does it take for Natural Language Classifier to answer the question?
+time_to_train,How long does it take to train a Natural Language Classifier?
+training_class_limit,What is the limit on the number of classes I can use to train the Natural Language Classifier?
+types_of_data_classified,What types of questions can be classified by the Natural Language Classifier?
+what_classifier_does,What is the Natural Language Classifier service?
+what_does_nl_stand_for,What does NL stand for?
+why_use_classifier,Why do I want to use the Natural Language Classifier?

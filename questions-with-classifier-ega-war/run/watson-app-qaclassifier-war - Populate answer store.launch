@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/questions-with-classifier-ega-war/src/main/java/com/ibm/watson/app/qaclassifier/tools/PopulateAnswerStore.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.ibm.watson.app.qaclassifier.tools.PopulateAnswerStore"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-f &quot;/answers.csv&quot;&#13;&#10;-u apiuser&#13;&#10;-p passw0rd&#10;-d /answers"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="questions-with-classifier-ega-war"/>
+</launchConfiguration>

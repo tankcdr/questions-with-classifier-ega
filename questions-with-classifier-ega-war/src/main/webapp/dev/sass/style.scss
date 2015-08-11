@@ -1,0 +1,1410 @@
+/* Copyright IBM Corp. 2015 Licensed under the Apache License, Version 2.0 */
+
+/* style.scss
+ * This file provides SASSy styles
+ */
+
+$font-stack:        "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+
+$body-color:        #FFFFFF;
+$grey-background:   #E9E9E9;
+$off-white:         #F9F9F9;
+$header-color:      #00857C;
+$subheader-color:   #0D6E5D;
+$refinement-header: #D7D7D7;
+$powered-by-dark:   #D6D6D6;
+$button-color:      #ECECEC;
+$button-font-color: #325C80;
+$light-blue-color:  #5596e6;
+$answer-background: #D6D6D5;
+$blue-text-color:   #325C80;
+$ask-button-indigo: #345d7f;
+$link-color:        #377CB6;
+$horizontal-line-color: #D1D2D4;
+$blue-background-color: #325C80;
+$green-text-color:  #006D5D;
+$none-background: #787878;
+$dark-green-text-color: $subheader-color;
+$dark-grey-text:    #777677;
+$placeholder-font-color: #777677;
+$answer-text:       #2A2A2A;
+$grey-border-color: #ECECEC;
+$light-grey-border-color: #D6D6D5;
+$border-color-menu: #4C4A49;
+$white-text-color: #FFFFFF;
+$toast-message-color: #5596E6;
+$menu-color: #313131;
+$menu-text-color: #DDDDDD;
+$menu-text-hover-color: $menu-color;
+$menu-item-hover-color: #DDDDDD;
+$circle-color: #B6D5E0;
+$welcome-dark-text: #050A0A;
+$welcome-mediumdark-background: #016D63;
+$welcome-dark-background: #01594F;
+$feedback-focus-color: #D6D6D5;
+
+@mixin transition($transition-properties) {
+    -khtml-transition: $transition-properties;
+    -webkit-transition: $transition-properties;
+    -moz-transition: $transition-properties;
+    -ms-transition: $transition-properties;
+    -o-transition: $transition-properties;
+    transition: $transition-properties;
+}
+
+@mixin transform($transforms) {
+       -moz-transform: $transforms;
+         -o-transform: $transforms;
+        -ms-transform: $transforms;
+    -webkit-transform: $transforms;
+          transform: $transforms;
+}
+
+@mixin displayFlex {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -moz-flex;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+@mixin justify-content($value: flex-start) {
+    @if $value == flex-start {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+    } @else if $value == flex-end {
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+    } @else if $value == space-between {
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+    } @else if $value == space-around {
+        -ms-flex-pack: distribute;      
+    } @else {
+        -webkit-box-pack: $value;
+        -ms-flex-pack: $value;
+    }
+    -webkit-justify-content: $value;
+    -moz-justify-content: $value;
+    justify-content: $value;
+}
+
+@mixin align-items($value: stretch) {
+    @if $value == flex-start {
+        -webkit-box-align: start;
+        -ms-flex-align: start;
+    } @else if $value == flex-end {
+        -webkit-box-align: end;
+        -ms-flex-align: end;
+    } @else {
+        -webkit-box-align: $value;
+        -ms-flex-align: $value;
+    }
+    -webkit-align-items: $value;
+    -moz-align-items: $value;
+    align-items: $value;
+}
+
+@mixin flex-direction($value: row) {
+    @if $value == row-reverse {
+        -webkit-box-direction: reverse;
+        -webkit-box-orient: horizontal;
+    } @else if $value == column {
+        -webkit-box-direction: normal;
+        -webkit-box-orient: vertical;
+    } @else if $value == column-reverse {
+        -webkit-box-direction: reverse;
+        -webkit-box-orient: vertical;
+    } @else {
+        -webkit-box-direction: normal;
+        -webkit-box-orient: horizontal;
+    }
+    -webkit-flex-direction: $value;
+    -moz-flex-direction: $value;
+    -ms-flex-direction: $value;
+    flex-direction: $value;
+}
+
+@mixin blur($radius) { 
+    filter: blur($radius+px);
+    //Chrome, Safari 
+    -webkit-filter: blur($radius+px); 
+    //IE 12? 
+    -ms-filter: blur($radius+px);
+}
+
+
+
+
+@import "bootstrap";
+@import "loading-indicator";
+
+body {
+    overflow-x: hidden;
+    overflow-y: hidden; // IE bug causes 3px overflow and permanent scrollbar
+}
+
+body,html {
+    -webkit-overflow-scrolling: touch;
+    background-color: $grey-background; 
+    width : 100%;
+    height: 100%;
+    margin: 0 auto;
+    font-family: $font-stack;
+    color: #ffffff;
+}
+
+a, a:hover, a:focus {
+    text-decoration: none;
+    outline:0;
+}
+
+.hide {
+    display: none;
+}
+
+.home {
+	background-color: $body-color;
+    .home-body {
+        @include displayFlex;
+        @include flex-direction(column);
+        height: -moz-calc(100% - 50px); /* Firefox */
+        height: -webkit-calc(100% - 50px); /* Safari */
+        height: calc(100% - 50px); /* IE9+, Chrome, and future browsers */
+        padding: 0px;
+		  loading-indicator {
+            pointer-events: none;
+            position: absolute;
+            left: 0px;
+            top: 10%;
+            height: 80%;
+            padding: 0;
+            z-index: 1;
+            .loader {
+                @include displayFlex;
+                @include justify-content(center);
+                @include align-items(center);
+                height: 100%;
+                width: 100%;
+                &--fallback {
+                    background-image: url("/images/loading-indicator.gif");
+                    height: 100px;
+                    width: 110px;
+                }
+                #staticImage {
+                    display: none;
+                }
+            }
+        }
+    }
+    
+    h2 {
+        color: $dark-green-text-color;
+    }
+}
+
+.loader {
+     &--svg {
+        width: 0%;
+    }
+    &--svg.active {
+        width: 20%;
+    }
+}
+
+loading-indicator {
+    width: 100%;
+}
+
+.home header {
+    .navbar {
+        height: 50px;
+        position: inherit;
+    }
+}
+
+.blueTitle {
+    color: $blue-text-color;
+}
+
+welcome, service-unavailable {
+    position: relative;
+    height: 100%;
+    
+    .screen-container {
+    	@include displayFlex;
+        @include justify-content(center);
+        @include align-items(center);
+        @include flex-direction(column);
+        height: 100%;
+            .logo-container {
+                @include displayFlex;
+                @include justify-content(center);
+                @include align-items(center);
+                @include flex-direction(column);
+                
+                background-color: $header-color;
+                width: 100%;
+
+                loading-indicator {
+                    width: auto;
+                }
+                
+                .loader {
+                    height: 110px;
+                    width: 110px;
+                
+                    &--svg {
+                        height: 110px;
+                        width: 110px;
+                    }
+                    
+                    &--fallback {
+                        background-image: url("/images/Default.svg");
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        background-size: 100% 100%;
+                        height: 110px;
+                        width: 110px;
+                    }
+
+                    #loaderImage {
+                        display: none;
+                    }
+                }
+            }
+        
+        .text-container {
+            @include displayFlex;
+            @include justify-content(space-between);
+            @include align-items(center);
+            @include flex-direction(column);
+            
+            height: -moz-calc(100% - 110px); /* Firefox */
+            height: -webkit-calc(100% - 110px); /* Safari */
+            height: calc(100% - 110px); /* IE9+, Chrome, and future browsers */
+            width: 100%;
+            background-color: $welcome-mediumdark-background;
+            position: relative;
+            
+            .text-inner-container {
+                @include displayFlex;
+                @include justify-content(center);
+                @include align-items(flex-start);
+                @include flex-direction(column);
+
+                font-size: 1.2em;
+                padding: 2em;
+                width: 100%;
+                
+                .horizontal-line {
+                    background-color: $body-color;
+                }
+                
+                #screenText {
+                    color: $body-color;
+                    padding-top: 1em;
+                }
+            
+                #trainMeText {
+                    color: $welcome-dark-text;
+                    padding-top: 1em;
+                }
+            }
+            
+            footer {
+                @include displayFlex;
+                @include justify-content(center);
+                @include align-items(center);
+        
+                background-color: $welcome-dark-background;
+                height: 40px;
+                width: 100%;
+        
+                a {
+                    color: $body-color;
+                    font-size: 1em;
+                }
+        
+                #actionButton, #error {
+                    padding-left: 1em;
+                    float: left;
+                }
+                #actionButton {
+                    padding-right: 1em;
+                    float: right;
+                }
+            }
+        }
+    }
+}
+
+home header {
+    .navbar {    
+        background-color: $header-color;
+        border: none;
+        margin-bottom: 0;
+        height: 50px;      
+    }
+}
+
+.navbar {
+    height: 100%;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    
+    watson-logo img {
+        height: 50px;
+        width: 50px;
+    }
+}
+
+.row {
+    height: 100%;
+}
+
+.header-block {
+    width: 75%;
+    height: 100%;
+    float: left;
+}
+
+.header-title-block {
+    @include displayFlex;
+    @include align-items(center);
+    max-width: 700px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.header-text {
+    font-size: 1em;
+    padding: 0 0 0 1em;
+}
+
+.poweredBy-home {
+    display: none;
+}
+
+.poweredBy-menu {
+    display: block;
+    color: $body-color;
+    padding-left: 1em;
+    margin-left: 2em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    border-left: 4px;
+    border-style: solid;
+    border-color: $body-color;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+}
+
+.menu-icon {
+    float: right;
+    vertical-align: bottom;
+    bottom: 0px;
+    right: 0px;
+    margin: 0;
+    
+    .menuIconContainer {
+        pointer-events: auto;
+        outline: none;
+        text-align: right;
+    }
+    .menuIconImg {
+        display: inline-block;
+        height: 50px;
+        width: 50px;
+        background-image: url("/images/Menu_White_88.svg");
+        vertical-align: middle;
+    }
+    .menuIconImg:hover {
+        cursor: pointer;
+    }
+}
+
+.menuIconContainer.active {
+    background-color: $menu-color;
+}
+
+menu-overlay {
+    #menuOverlay {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 180, 160, 0.5);
+        z-index: 2;
+    }
+    #menu {
+        position: absolute;
+        height: 66%;
+        width: 66%;
+        top: 17%; // Half of the remaining 34% of space to center it
+        left: 17%;
+        margin: 0 auto;
+        background-color: #FFFFFF;
+        padding: 3em;        
+        .header {
+            display: block;
+            width: 100%;
+            color: $header-color;
+            padding-bottom: .5em;
+            border-bottom: 2px solid $header-color;
+            h2 {
+                float: left;
+                margin: 0px;
+            }
+        }
+        span.close:after {
+            content:"X";
+        }
+        .header:after {
+            display: block;
+            content:" ";
+            clear: both;
+        }
+        #menuContent {
+            width: 100%;
+            /* Calculate its height, taking into account the parent padding (3.0em) and its padding-top (.7em) to get 2.3em */
+            height: -moz-calc(100% - 2.3em); /* Firefox */
+            height: -webkit-calc(100% - 2.3em); /* Safari */
+            height: calc(100% - 2.3em); /* IE9+, Chrome, and future browsers */
+            padding-top: .7em;
+            color: $dark-grey-text;
+            font-size: 150%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            overflow-wrap: break-word;
+        }
+    }
+}
+
+.menu-label {
+    display: none;
+}
+
+menu-list {
+    pointer-events: auto;
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    width: 300px;
+    z-index: 1;
+    background-color: $menu-color;
+    
+    ul {
+        color: $menu-text-color;
+        padding: 0px; 
+        margin: .5em 0 0 0;
+        list-style-type: none;
+        li {
+        	height: 64px;
+            padding-top: 1.5em;
+            padding-bottom: 1.5em;
+            padding-left: 2em;
+            list-style-type: none;
+            border-bottom: 1px solid $border-color-menu;
+        }
+        li:hover {
+            cursor: pointer;
+            background-color: $menu-item-hover-color;
+            color: $menu-text-hover-color;
+        }
+        li:last-child { 
+            border-bottom: none; 
+        }
+        li h3 {
+        	float: left;
+            margin: 0px;
+            font-size: 133%;
+        }
+        .menu-option-home {
+            display: block;
+        }
+    }
+    .menu-content {
+        display: none;
+    }
+}
+
+.menu-list.active {
+    display: block;
+}
+
+.feedbackThankYou {
+    padding: 0 .5em;
+}
+
+.statusBar {
+    @include displayFlex;
+    @include justify-content(flex-start);
+    @include align-items(center);
+    
+    color:            $dark-grey-text;
+    background-color: $body-color;
+    position:         relative;
+    
+    padding-top:    .5em;
+    padding-bottom: .5em;
+    padding-left:     1em;
+    padding-right:  .5em;
+    
+    margin: 0 0.5em;
+    
+    border-style: solid;
+    border-width: 2px;
+    border-color: $light-grey-border-color;
+    
+    span {
+        font-size: 1em;
+        color: $green-text-color;
+    }
+    
+    .thanksImage {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        float: left;
+    }
+}
+
+.home-tab-container {
+    display: block;
+    width: 100%;
+    border: none;
+    background-color: $body-color;
+    padding-left: 1em;
+    padding-right: 0px;
+    overflow-y: auto;
+    height: -moz-calc(100% - 80px); /* Firefox */
+    height: -webkit-calc(100% - 80px); /* Safari */
+    height: calc(100% - 80px); /* IE9+, Chrome, and future browsers */
+}
+
+.home-tab-container.blurred {
+    .cssfilters & {
+        @include blur(2);
+    }
+    .no-cssfilters & {
+        opacity: 0.5;
+    }
+}
+.questionHasBeenAsked {
+    display: none;
+}
+
+.getting-started-mobile {
+    color: $blue-text-color;
+    padding: 1em .5em;
+    margin: 0;
+    font-size: 2em;
+}
+
+.getting-started-desktop {
+    display: none;
+    color: $blue-text-color;
+    padding: 0;
+    margin: 0;
+    font-size: 2em;
+}
+
+.bottom {
+    margin: 1.5em auto 0 auto;
+    max-width: 700px;
+}
+
+.ask-question-container {
+    @extend .bottom;
+    position: relative;
+}
+
+.ask-question-button {
+    width: 100%;
+    height: 4em;
+    background-color: $button-color;
+    color: $button-font-color;
+    border: none;
+}
+
+.yayIcon {
+    height: 40px;
+}
+
+.ask-question-tag {
+    @include displayFlex;
+    @include align-items(flex-end);
+    @include flex-direction(column);
+    border: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.ask-question-tag.blurred {
+    .cssfilters & {
+        @include blur(2);
+    }
+    .no-cssfilters & {
+        opacity: 0.5;
+    }
+}
+
+.ask-question-tag.initialViewing {
+    height: auto;
+}
+
+.ask-question-inner-container {
+    display: block;
+    overflow-y: auto;
+    height: -moz-calc(100% - 80px); /* Firefox */
+    height: -webkit-calc(100% - 80px); /* Safari */
+    height: calc(100% - 80px); /* IE9+, Chrome, and future browsers */
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1em;
+}
+
+.top-questions-tab {
+    display: block;
+    background-color: $body-color;
+}
+
+.top-questions-title {
+    color: $blue-text-color;
+    padding: .5em;
+}
+
+.refinement-title {
+    background-color: $refinement-header;
+    color: $answer-text;
+    padding: .5em 1em;
+    font-size: 1.3em;
+    margin-top: 1em;
+}
+
+.questionList {
+    margin: 0px;
+    padding: 0px;
+    padding-top: 2em;
+    list-style-type: none;
+}
+
+.question {
+    display: table;
+    height: 50px;
+    margin-bottom: .5em;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $grey-border-color transparent transparent;
+    width: 100%;
+}
+
+.refinement-white {
+    background-color: $body-color;
+    padding: .3em 0;
+}
+
+.questionList .none {
+    @extend .question;
+    font-style: italic;
+    background-color: $none-background;
+    border: none;
+}
+
+.questionList .none .selected {
+    font-style: normal;
+    color: $green-text-color;
+    background-color: $body-color;
+    cursor: default;
+}
+
+.none {
+    .low-confidence-answer-text {
+        color: $body-color;
+    }
+}
+
+.top-question-text {
+    color: $dark-grey-text;
+    display: table-cell;
+    vertical-align: middle;
+    float: none;
+    width: 100%;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    line-height: normal;
+    font-size: 1em;
+}
+
+.top-question-text:hover {
+    cursor: pointer;
+    color: $blue-text-color;
+    -webkit-transition: color 1000ms linear;
+    -moz-transition: color 1000ms linear;
+    -o-transition: color 1000ms linear;
+    -ms-transition: color 1000ms linear;
+    transition: color 1000ms linear;
+};
+
+.hidden {
+    height: 0px;
+    overflow: hidden;
+}
+
+.low-confidence-title {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.low-confidence-answer-text {
+    @extend .top-question-text;
+    padding-left: .5em;
+}
+
+.low-confidence-answer-text:hover {
+    @extend .top-question-text:hover;
+}
+
+question-unanswerable {
+    display: block;
+    padding-bottom: .7em;
+}
+
+.stillNeedHelp {
+    margin-bottom: 2em;
+    
+    h2 {
+        padding: .7em 0;
+        padding-bottom: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        color: $blue-text-color;
+        font-size: 1.2em;
+    }
+    #explanation {
+        padding: 1.5em 0;
+        font-size: 1em;
+        color: $dark-grey-text;
+    }
+    #tips-container {
+        color: $dark-grey-text;
+        font-size: 1em;       
+        ul, li {
+            list-style-type: disc;
+        }
+        ul.tips li {
+            padding: .2em;
+        }
+    }    
+    .visitForum {
+        color: $blue-text-color;
+        background-color: $circle-color;
+        padding: .7em 4em;
+        margin: .5em 0;
+        border: none;
+    }
+}
+
+.refineQuestion {
+    @extend .stillNeedHelp;
+    
+    #tips-container {
+        ul.tips li {
+            padding: 0;
+            margin: .2em 0;
+        }
+    }
+}
+
+.circle {
+    background-color: $circle-color;
+}
+
+span.helper {
+    display: table-cell;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    border-radius: 25px;
+    padding: .5em 0 0 0;
+    color: $blue-text-color;
+    margin: 1em 0 0.7em 0.3em;
+    font-size: 1em;
+}
+
+.questionContainer {
+    display: table;
+    padding-left: 1em;
+    width: 100%;
+}
+
+.question-text {
+    color: $blue-text-color;
+    vertical-align: middle;
+    font-size: 1.7em;
+}
+
+.user-image-container {
+    position: relative;
+    height: 100%;
+    width: 80px;
+    padding: 1em;
+    float: right;
+    background-color: $light-blue-color;
+}
+
+.user-image-container:after {
+    left: -1%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-left-color: $blue-text-color;
+    border-width: 13px;
+    margin-top: -10px;
+}
+
+.user-image {
+    height: 100%;
+}
+
+.answer {
+    width:  100%;
+    border-right: 0;
+    -webkit-flex: 8;
+    flex: 8;
+    
+	-webkit-transition: 1s all ease-out;
+	-moz-transition: 1s all ease-out;
+	-ms-transition: 1s all ease-out;
+	transition: 1s all ease-out;
+}
+
+.answer.noAnswer {
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+.answer-quote {
+    font-size: 1.2em;
+    margin: 1em .5em;
+    padding: 1em;
+    color: $answer-text;
+    background-color: $answer-background;
+    
+    a {
+        color: $link-color;
+    }
+    
+    ul {
+        li {
+            padding: 0.8em 0;
+        }
+    }
+}
+
+.horizontal-line {
+    width: 100%;
+    line-height: 2px;
+    color: rgba(0, 0, 0, 0);
+    background-color: $horizontal-line-color;
+    margin: 2em 0 1em 0;
+}
+
+.square {
+    border-radius: 0px;
+}
+
+.question-input-container {
+    padding-left: 1em;
+    padding-right: 1em;
+    width: 100%;
+    margin: 0 auto 1em auto;
+    max-width: 700px;
+    min-height: 70px;
+    -webkit-flex: 1;
+    flex: 1;
+    
+	-webkit-transition: 1s all ease-out;
+	-moz-transition: 1s all ease-out;
+	-ms-transition: 1s all ease-out;
+	transition: 1s all ease-out;
+}
+
+.question-input-container.noAnswer {
+    -webkit-flex: 2;
+    flex: 2;
+}
+
+.question-input-box { 
+    @extend .square;
+    width: 100% !important;
+    margin-left: 0;
+    margin-right: 0;
+    border: 0;
+
+    // Remove the drop shadow, so we have a nicer flatter look
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+// Get hacky so the input placeholder text is fancy
+.form-control::-webkit-input-placeholder { 
+    font-style: italic;
+    color: $placeholder-font-color; 
+    font-size: .85em;
+    text-overflow: ellipsis;
+}
+.form-control:-moz-placeholder { 
+    font-style: italic;
+    color: $placeholder-font-color; 
+    font-size: .85em;
+    text-overflow: ellipsis;
+}
+.form-control::-moz-placeholder {
+    font-style: italic;
+    color: $placeholder-font-color; 
+    font-size: .85em;
+    text-overflow: ellipsis;
+}
+.form-control:-ms-input-placeholder {
+    font-style: italic;
+    color: $placeholder-font-color; 
+    font-size: .85em;
+    text-overflow: ellipsis;
+}
+
+.form-group {
+    padding: 0;
+    width: 82%;
+    float: left;
+    margin-bottom: 0;
+}
+
+.question-input-box:focus { 
+    background-color: #FFFFFF;
+}
+
+.noindent {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.popup-block.hidden {
+    display: none;
+}
+
+.popup-block.active {
+    @include displayFlex;
+    @include justify-content(center);
+    @include align-items(center);
+    opacity: 1;
+    -webkit-transition: opacity 2s ease-in;
+    -moz-transition: opacity 2s ease-in;
+    -ms-transition: opacity 2s ease-in;
+    -o-transition: opacity 2s ease-in;
+    transition: opacity 2s ease-in;
+}
+.popup-block {
+    opacity: 0;
+    background-color: $circle-color;
+    color: $blue-text-color;
+    position: absolute; 
+    bottom: 20px;
+    right: 0; 
+    width: 280px; 
+
+    -webkit-transition: opacity 0s;
+    -moz-transition: opacity 0s;
+    -ms-transition: opacity 0s;
+    -o-transition: opacity 0s;
+    transition: opacity 0s;
+
+
+    p {
+
+        font-size: 115%;
+        margin: 0.7em 2em 0.7em .5em;
+    }
+    a#close {
+        width: 40px;
+        height: 40px;
+        display: block;
+        position: absolute;
+        padding: 0.5em 0.5em 0 0;
+        top: 0;
+        right: 0;
+        img {
+            width: 100%;
+            height: 100%;
+            vertical-align: top;
+        }
+    }
+}
+
+.popup-block:after {
+    top: 99%;
+    left: 20%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-top-color: $circle-color;
+    border-width: 13px;
+    margin-left: -30px;
+}
+
+.popup-block-below {
+  @extend .popup-block;
+  bottom: -130px;
+  left: 0px;
+  right: auto;
+}
+
+.popup-block-below:after {
+    top: -26px;
+    border-top-color: transparent;
+    border-bottom-color: $circle-color;
+}
+
+.btn-feedback {
+    @extend .btn;
+    @extend .input-lg;
+    @extend .square;
+    
+    background-color: $body-color;
+    color: $answer-text;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    white-space: normal;
+    overflow: hidden;
+    img{
+        display: inline-block;
+        width: 34px; 
+        height: 100%;
+    }
+    p{
+        display: inline-block;
+        text-align: left;
+        width: 105px;
+        vertical-align: middle;
+        margin: 0px;
+    }
+}
+
+.btn-primary {
+    background-color: $ask-button-indigo;
+    width: 18%;
+    float: right;
+}
+
+// Remove user-accessibility button glow added by Bootstrap
+.btn:focus,.btn:active:focus,.btn.active:focus,
+.btn.focus,.btn:active.focus,.btn.active.focus {
+    outline: none;
+    background-color: $feedback-focus-color;
+}
+
+.feedback-container {
+    border-width: 2px;
+    border-color: $light-grey-border-color;
+    padding: 0;
+    width: 46%;
+}
+
+.left-feedback-container {
+    @extend .feedback-container;
+    border-style: solid;
+    float: left;
+    margin-left: .5em;
+}
+
+.right-feedback-container {
+    @extend .feedback-container;
+    border-style: solid;
+    float: right;
+    margin-right: .5em;
+}
+
+.feedback-img {
+    height: 100%;
+}
+
+/* Desktop */
+@media (min-width: 1020px) {
+    
+    .home {
+        .home-body {
+            height: -moz-calc(100% - 75px); /* Firefox */
+            height: -webkit-calc(100% - 75px); /* Safari */
+            height: calc(100% - 75px); /* IE9+, Chrome, and future browsers */
+            padding: 0px;
+            display: block;
+        }
+    }
+    
+    .home header {
+        .navbar {
+            height: 75px;
+        }
+    }
+
+    loading-indicator {
+        width: 75%;
+    }
+    
+    .header-logo {
+        float: left;
+    }
+    
+    .menu-icon {
+        @include displayFlex;
+        @include align-items(center);
+        @include flex-direction(row-reverse);
+        margin: 0;
+        padding-left: 1em;
+        width: 25%;
+        height: 100%;
+    }
+    
+    .menu-label {
+        display: inline;
+        padding-left: 0.5em;
+    }
+    
+    menu-list {
+        top: 60px;
+        
+        ul {
+            .menu-option-home {
+                display: none;
+            }
+        }
+    }
+    
+    .poweredBy-home {
+        display: block;
+        color: $dark-grey-text;
+        padding-left: 1em;
+        margin-top: 2em;
+        border-left: 4px;
+        border-style: solid;
+        border-color: $powered-by-dark;
+        border-top: none;
+        border-right: none;
+        border-bottom: none;
+
+    }
+
+    .poweredBy-menu {
+        display: none;
+    }
+    
+    welcome, service-unavailable {
+        .screen-container {
+            @include flex-direction(row);
+
+            .logo-container {
+                
+                height: 100%;
+                
+                .loader {
+                    height: 220px;
+                    width:  220px;
+                }
+                
+                .loader--svg {
+                    height: 220px;
+                    width: 220px;
+                }
+            
+                .loader--fallback {
+                    height: 220px;
+                    width: 220px;
+                }
+            }
+        
+            .text-container {
+                
+                height: 100%;
+                
+                .text-inner-container {
+                    @include justify-content(center);
+                    
+                    font-size: 1.7em;
+                    height: 100%;
+                }
+                
+                footer {
+                    a {
+                        font-size: 1.2em;
+                    }
+                }
+            }
+        }
+    }
+    
+    .ask-question-tag.initialViewing {
+        @include displayFlex;
+        @include align-items(center);
+        @include flex-direction(column);
+        @include justify-content(center);
+        height: 100%;
+    }
+    
+    .home-tab-container {
+        width: 25%;
+        height: 100%;
+        float: right;
+    }
+    .home-tab-container.blurred {
+        .cssfilters & {
+            @include blur(0);
+        }
+        .no-cssfilters & {
+            opacity: 1;
+        }
+    }
+    .ask-question-tag {
+        width: 75%;
+        height: 100%;
+        border: none;
+        float: left;
+    }
+    
+    .getting-started-mobile {
+        display: none;
+    }
+    
+    .getting-started-desktop {
+        display: block;
+    }
+    
+    .questionHasBeenAsked {
+        display: inline-block;
+    }
+}
+
+// Mostly for the menu
+@media (max-width: 767px) {
+	$mobile-menu-width: 230px;
+
+    .menu-label {
+        display: none;
+    }
+    .menuIconContainer.active {
+        background-color: $menu-color;
+        color: #006D5D;
+        
+        .menuIconImg {
+            background-image: url("/images/Menu_White_88.svg");
+        }
+    }
+    .menu-list {
+        display: none;
+        @include transform(translateX(100%));
+        @include transition(0.4s ease-in-out 0.4s);
+        width: 86%;
+        position: fixed;
+        display: block;
+        //@include transform(translateX(100%));
+        //@include transition(0.4s ease-in-out, 0.4s);
+        width: 85%;
+        position: absolute;
+        top: 0;
+
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        ul {
+            opacity: 0;
+            @include transition(0.2s ease-in-out 0.2s);
+            li:hover {
+                cursor: pointer;
+            }
+        }
+        ul.visible {
+            opacity: 1;
+        }
+        .menu-content {
+            display: block;
+            @include transform(translateX(100%));
+            @include transition(0.4s ease-in-out 0.4s);
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            overflow-y: auto;
+            top: 0;
+            .menu-title {
+                text-align: center;
+                font-size: 180%;
+                padding-top: 1em;
+                display: block;
+                color: #FFFFFF;
+            }
+            .menu-title:before {
+                content: "<";
+                position: absolute;
+                left: 5%;
+            }
+            .menu-text {
+                font-size: 125%;
+                padding: 1em 2em;
+                color: #FFFFFF;
+                word-wrap: break-word;
+            }
+        }
+        
+        .menu-content.active {
+            @include transform(translateX(0%));
+        }
+
+        .close-menu-overlay {
+            height: 100%;
+            position: absolute;
+            width: 15%;
+            left: -15%;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+    }
+
+    .loader {
+        &--svg.active {
+            width: 40%;
+        }
+    }
+
+    body {
+        position: relative;
+        @include transform(translateX(0px));
+        @include transition(0.4s ease-in-out 0.4s);
+    }
+
+    .push-toleft {
+        @include transform(translateX(-85%));
+        @include transition(transform 0.4s ease-in-out);
+    }
+
+    .mobileMenuHidden {
+        display: none;
+    }
+	
+}

@@ -41,7 +41,7 @@
     
     <application.path>${project.build.directory}/war/questions-with-classifier-ega-war.war</application.path>
     
-    <selenium.grid.url>http://wd3p311.swg.usma.ibm.com:4444/wd/hub</selenium.grid.url>
+    <selenium.grid.url></selenium.grid.url>
     <selenium.full.suite>false</selenium.full.suite>
   </properties>
   

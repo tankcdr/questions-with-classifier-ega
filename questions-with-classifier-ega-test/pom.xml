@@ -534,10 +534,10 @@
 
         <!-- No changes should be needed below this line for external testing -->
         <!-- API endpoint needed to execute the cloud foundry commands -->
-        <bluemix.server.api.url>https://api.stage1.ng.bluemix.net</bluemix.server.api.url>
+        <bluemix.server.api.url>https://api.ng.bluemix.net</bluemix.server.api.url>
         
         <!-- URL of your app once deployed, built off of the app name specified in a previous property -->
-        <bluemix.app.url>http://${bluemix.appname}.stage1.mybluemix.net</bluemix.app.url>
+        <bluemix.app.url>http://${bluemix.appname}.mybluemix.net</bluemix.app.url>
         
         <!-- Label of the classifier service, this could be different depending on your BlueMix env -->
         <classifier.service.label>natural_language_classifier.dev</classifier.service.label>

@@ -18,7 +18,7 @@
   	<groupId>com.ibm.watson.app.gallery</groupId>
   	<artifactId>questions-with-classifier-ega</artifactId>
   	<version>0.0.1-SNAPSHOT</version>
-  	<relativePath>../questions-with-classifier-ega</relativePath>
+  	<relativePath>../</relativePath>
   </parent>
   
   <artifactId>questions-with-classifier-ega-test</artifactId>

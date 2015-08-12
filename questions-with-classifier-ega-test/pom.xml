@@ -526,8 +526,8 @@
         <bluemix.appname></bluemix.appname>
         
         <!-- This is the org and space where the app and its services will be deployed in BlueMix -->
-        <bluemix.org>Watson-Platform-CSF-Dev</bluemix.org>
-        <bluemix.space>WGA</bluemix.space>
+        <bluemix.org></bluemix.org>
+        <bluemix.space></bluemix.space>
         
         <!-- This is the name of the classifier service that will be created if it does not exist or bound if it does -->
         <classifier.service.name>questions-with-classifier-ega-classifier</classifier.service.name>
@@ -540,7 +540,7 @@
         <bluemix.app.url>http://${bluemix.appname}.mybluemix.net</bluemix.app.url>
         
         <!-- Label of the classifier service, this could be different depending on your BlueMix env -->
-        <classifier.service.label>natural_language_classifier.dev</classifier.service.label>
+        <classifier.service.label>natural_language_classifier</classifier.service.label>
       </properties>
 
       <build>
@@ -597,7 +597,7 @@
               
               <env>
                 <!-- While we deploy in stage 1, we need to point to the classifier service in bluemix labs -->
-                <SERVICES_OVERRIDE>{"natural_language_classifier.dev": [{"name": "app-classifier-bluemix-labs","label": "natural_language_classifier","plan": "free","credentials": {"url": "https://gateway.watsonplatform.net/natural-language-classifier-beta/api","username": "78237ebc-965e-45e5-9ee7-13e88b710374","password": "MloM5k7r6ZJz"}}]}</SERVICES_OVERRIDE>
+                <SERVICES_OVERRIDE>${bluemix.env.services.override}</SERVICES_OVERRIDE>
                 <MANAGE_API_PASSWORD>${manage.api.password}</MANAGE_API_PASSWORD>
               </env>
                      
@@ -745,6 +745,20 @@
                       <regex>.+</regex>
                       <regexMessage>You must specify a unique
                         application name via the bluemix.appname
+                        property when deploying to Bluemix.</regexMessage>
+                    </requireProperty>
+                    <requireProperty>
+                      <property>bluemix.org</property>
+                      <regex>.+</regex>
+                      <regexMessage>You must specify a bluemix org
+                        name via the bluemix.org
+                        property when deploying to Bluemix.</regexMessage>
+                    </requireProperty>
+                    <requireProperty>
+                      <property>bluemix.space</property>
+                      <regex>.+</regex>
+                      <regexMessage>You must specify a bluemix space
+                        name via the bluemix.space
                         property when deploying to Bluemix.</regexMessage>
                     </requireProperty>
                   </rules>

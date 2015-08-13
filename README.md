@@ -145,9 +145,9 @@ For more information about training the classifier, see the [Classifier API](htt
   1. [Log in to Bluemix](https://console.ng.bluemix.net/) and navigate to your app.
   2. Click **Show Credentials** for the Natural Language Classifier service that is bound to your app.
   3. Copy the values of the `url`, `username`, and `password` parameters in the `**credentials**` section.
-  4. From a command prompt, run the following curl command. Replace `<username>`, `<password>`, and `<url>` with the credentials you copied. The train.csv file is assumed to be in the directory from which you run the command. If necessary, change the path to the file.
+  4. From a command prompt, run the following curl command. Replace `<username>`, `<password>`, and `<url>` with the credentials you copied. The questions.csv file is assumed to be in the directory from which you run the command. If necessary, change the path to the file.
   
-    `curl -u <username>:<password> -F training_data=@train.csv -F training_metadata="{\"language\":\"en\",\"name\":\"my_classifier\"}" "https://<url>/v1/classifiers"`
+    `curl -u <username>:<password> -F training_data=@questions.csv -F training_metadata="{\"language\":\"en\",\"name\":\"my_classifier\"}" "https://<url>/v1/classifiers"`
 
 ***
 

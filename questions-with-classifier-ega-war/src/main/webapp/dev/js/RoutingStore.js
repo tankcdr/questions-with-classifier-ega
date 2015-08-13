@@ -8,8 +8,8 @@ function RoutingStore() {
     
     var self = this;
     
-    self.on(routingAction.CONVERSATION_STARTED, function(conversation) {
-        riot.route(conversation.conversationId);
+    self.on(routingAction.CONVERSATION_STARTED, function(conversationId) {
+        riot.route(conversationId);
     });
 }
 

@@ -67,7 +67,8 @@ function ConversationStore() {
             self.conversation.conversationId = data.conversationId;
             self.conversation.topQuestions   = data.topQuestions;
             
-            self.trigger(action.CONVERSATION_STARTED_BROADCAST, self.conversation); 
+            self.trigger(action.CONVERSATION_STARTED_BROADCAST, self.conversation);
+            self.trigger(action.GET_CONVERSATION_ID_BROADCAST, self.conversation.conversationId);
             self.trigger(action.TOP_QUESTIONS_BROADCAST, self.conversation.topQuestions);
         })
         .catch(function(error) {
@@ -81,7 +82,12 @@ function ConversationStore() {
      */
     
     self.on(action.GET_CONVERSATION_ID, function() {
-        self.trigger(action.GET_CONVERSATION_ID_BROADCAST, self.conversation && self.conversation.conversationId);
+        if (!self.conversation || !self.conversation.conversationId) {
+            self.trigger(action.CONVERSATION_START);
+        }
+        else {
+            self.trigger(action.GET_CONVERSATION_ID_BROADCAST, self.conversation.conversationId);
+        }
     });
     
 	/**

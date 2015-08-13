@@ -9,7 +9,7 @@
     <script>
     
     var action        = require("./action.js"),
-        routingAction = require("./action.js"),
+        routingAction = require("./routingAction.js"),
         constants     = require("./constants.js"),
         riot          = require("riot"),
         self          = this;
@@ -63,25 +63,20 @@
     
     
     // Routing
+    Dispatcher.on(action.CONVERSATION_STARTED_BROADCAST, function(conversation) {
+        Dispatcher.trigger(routingAction.CONVERSATION_STARTED, conversation.conversationId);
+    });
     
     // Establish our main routing callback to handle changes to the hash
-    riot.route(function(requestedConversation, requestedMessage, requestedFeedback) {
+    riot.route(function(requestedConversationId, requestedMessage, requestedFeedback) {
         
-        // Async handler functions
-        //
-        // Handle a conversation start by the server
-        Dispatcher.on(action.CONVERSATION_STARTED_BROADCAST, function(storedConversation) {
-            Dispatcher.trigger(routingAction.CONVERSATION_STARTED, storedConversation);
-        });
-        // Make sure the current conversation is the one requested in the URL
+        // Make sure the url is updated with the current conversationId
         Dispatcher.on(action.GET_CONVERSATION_ID_BROADCAST, function(conversationId) {
-            if (conversationId !== conversationId) {
-                Dispatcher.trigger(action.CONVERSATION_START);
-            }
+            Dispatcher.trigger(routingAction.CONVERSATION_STARTED, conversationId);
         });
         
         // Make sure we have a started conversation and a current conversation
-        if (!requestedConversation) {
+        if (!requestedConversationId) {
             Dispatcher.trigger(action.CONVERSATION_START);
         }
         else {

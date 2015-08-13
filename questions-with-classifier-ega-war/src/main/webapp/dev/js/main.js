@@ -7,32 +7,50 @@ var riot              = require("riot"),
     Dispatcher        = require("./Dispatcher.js"),
     ConversationStore = require("./ConversationStore.js"),
     PersistenceStore  = require("./PersistenceStore.js"),
+    RoutingStore      = require("./RoutingStore.js"),
     MenuStore         = require("./MenuStore.js");
 
+
+// Initialize our data stores
     
 var conversationStore = new ConversationStore(),
     persistenceStore  = new PersistenceStore(),
+    routingStore      = new RoutingStore(),
     menuStore         = new MenuStore();
+    
+    
+// Get Dispatcher all set up
     
 Dispatcher.addStore(conversationStore);
 Dispatcher.addStore(persistenceStore);
+Dispatcher.addStore(routingStore);
 Dispatcher.addStore(menuStore);
+
+
+// User language detection and internationalization
 
 var browserLang = navigator.language || navigator.userLanguage;
 
 complLang = browserLang.split('-');
 
-lang = complLang[0];
+lang    = complLang[0];
 dialect = complLang[1];
 
 if(lang === "ru") {
-  var jsonAddr = './strings/ru.json';
+  var stringBundleAddress = './strings/ru.json';
 }
 else {
-  var jsonAddr = './strings/en.json';
+  var stringBundleAddress = './strings/en.json';
 }
 
-fetch(jsonAddr)
+
+// Routing
+// Clear existing routing callbacks
+
+riot.route.stop();
+riot.route.start();
+
+fetch(stringBundleAddress)
     .then(function(response) {
       if (response.status >= 200 && response.status < 300) {
         return Promise.resolve(response);
@@ -46,7 +64,7 @@ fetch(jsonAddr)
     .then(function(data) {
         polyglot  = new Polyglot({phrases: data});
     }).catch(function(error) {
-        console.log('Request failed', error);
+        console.log('Language bundle request failed', error);
     })
     .then(function(data) {
         riot.mount("app");

@@ -9,6 +9,8 @@ var action = {
     "CONVERSATION_START"                   : "start_a_new_conversation",
     "CONVERSATION_STARTED_BROADCAST"       : "a_new_conversation_has_been_started",
     "FORUM_BUTTON_PRESSED"                 : "the_button_to_open_forum_was_pressed",
+    "GET_CONVERSATION_ID"                  : "request_the_current_conversation_id",
+    "GET_CONVERSATION_ID_BROADCAST"        : "returns_the_current_conversation_id",
     "GET_ALTERNATIVE_QUESTIONS"            : "ask_for_a_set_of_alternative_answers",
     "GET_TOP_QUESTIONS"                    : "ask_for_the_top_questions",
     "GET_VISIT_LEVEL"                      : "get_visit_level",

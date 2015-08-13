@@ -1,8 +1,9 @@
 /* Copyright IBM Corp. 2015 Licensed under the Apache License, Version 2.0 */
 
-var riot      = require("riot"),
-    action    = require("./action.js"),
-    constants = require("./constants.js");
+var riot          = require("riot"),
+    action        = require("./action.js"),
+    routingAction = require("./routingAction.js"),
+    constants     = require("./constants.js");
 
 // ConversationStore definition.
 // Flux stores house application logic and state that relate to a specific domain.
@@ -72,6 +73,15 @@ function ConversationStore() {
         .catch(function(error) {
             self.trigger(action.SERVER_ERROR_BROADCAST, error);
         });
+    });
+    
+    /**
+     * Responds to a query for the current conversation ID, 
+     * and triggers a broadcast of the ID if it exists
+     */
+    
+    self.on(action.GET_CONVERSATION_ID, function() {
+        self.trigger(action.GET_CONVERSATION_ID_BROADCAST, self.conversation && self.conversation.conversationId);
     });
     
 	/**
@@ -230,7 +240,6 @@ function ConversationStore() {
 	 */
     self.on(action.GET_ALTERNATIVE_QUESTIONS, function() {
         
-        //TODO continue
         self.trigger(action.ALTERNATIVE_QUESTION_BROADCAST, self.conversation);
     });
     

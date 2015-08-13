@@ -8,9 +8,11 @@
     
     <script>
     
-    var action    = require("./action.js"),
-        constants = require("./constants.js"),
-        self      = this;
+    var action        = require("./action.js"),
+        routingAction = require("./action.js"),
+        constants     = require("./constants.js"),
+        riot          = require("riot"),
+        self          = this;
     
     self.showWelcome     = false;
     self.showHome        = false;
@@ -58,6 +60,35 @@
         self.showHome        = false;
         self.update();
     });
+    
+    
+    // Routing
+    
+    // Establish our main routing callback to handle changes to the hash
+    riot.route(function(requestedConversation, requestedMessage, requestedFeedback) {
+        
+        // Async handler functions
+        //
+        // Handle a conversation start by the server
+        Dispatcher.on(action.CONVERSATION_STARTED_BROADCAST, function(storedConversation) {
+            Dispatcher.trigger(routingAction.CONVERSATION_STARTED, storedConversation);
+        });
+        // Make sure the current conversation is the one requested in the URL
+        Dispatcher.on(action.GET_CONVERSATION_ID_BROADCAST, function(conversationId) {
+            if (conversationId !== conversationId) {
+                Dispatcher.trigger(action.CONVERSATION_START);
+            }
+        });
+        
+        // Make sure we have a started conversation and a current conversation
+        if (!requestedConversation) {
+            Dispatcher.trigger(action.CONVERSATION_START);
+        }
+        else {
+            Dispatcher.trigger(action.GET_CONVERSATION_ID);
+        }
+    });
+    
     
     // Initiate a conversation when the app is mounted
     self.on("mount", function() {

@@ -31,6 +31,7 @@
     <script>
     
     var self   = this,
+        riot   = require("riot"),
         action = require("./action.js");
         
 	self.initialviewing              = opts.initialviewing;
@@ -66,7 +67,8 @@
         self.update();
     });
     
-    Dispatcher.on(action.CONVERSATION_STARTED_BROADCAST, function() {
+    Dispatcher.on(action.CONVERSATION_STARTED_BROADCAST, function(conversation) {
+        riot.route(conversation.conversationId);
         self.askButton.disabled          = false;
         self.questionInputField.disabled = false; 
     })

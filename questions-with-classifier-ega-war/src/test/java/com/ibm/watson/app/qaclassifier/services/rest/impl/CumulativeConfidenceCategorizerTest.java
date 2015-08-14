@@ -17,6 +17,7 @@ package com.ibm.watson.app.qaclassifier.services.rest.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -103,6 +105,7 @@ public class CumulativeConfidenceCategorizerTest implements ConfigurationConstan
             AND.categorize_is_invoked();
         THEN.the_category_is_not_null();
             AND.the_category_is_high();
+            AND.the_answer_list_has_size(4);
     }
     
     @Test
@@ -114,6 +117,7 @@ public class CumulativeConfidenceCategorizerTest implements ConfigurationConstan
             AND.categorize_is_invoked();
         THEN.the_category_is_not_null();
             AND.the_category_is_low();
+            AND.the_answer_list_has_size(3);
     }
     
     @Test
@@ -136,6 +140,10 @@ public class CumulativeConfidenceCategorizerTest implements ConfigurationConstan
     
     private void the_answer_list_is_empty() {
         assertTrue(answers.isEmpty());
+    }
+    
+    private void the_answer_list_has_size(int size) {
+        assertThat("", answers, Matchers.<Answer>hasSize(size));
     }
     
     private void the_category_is_low() {

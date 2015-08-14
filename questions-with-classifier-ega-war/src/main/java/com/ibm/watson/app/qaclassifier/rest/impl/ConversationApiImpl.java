@@ -58,9 +58,6 @@ import com.ibm.watson.app.qaclassifier.util.rest.MessageKey;
 public class ConversationApiImpl extends AbstractRestApiImpl implements ConversationApiInterface, ConfigurationConstants {
     private static final Logger logger = LogManager.getLogger();
 
-    public static final int HIGH_CONF_ANSWER_COUNT = 6;
-    public static final int LOW_CONF_ANSWER_COUNT = HIGH_CONF_ANSWER_COUNT - 1;
-
     private final NLClassifierService service;
     private final AnswerResolver resolver;
     private final UserTracking tracking;
@@ -193,15 +190,6 @@ public class ConversationApiImpl extends AbstractRestApiImpl implements Conversa
         
         if(answers.size() > 0) {
             answers = categorizer.categorize(answers);
-        }
-        
-        if (answers.size() > 0) {
-            // Ensure that the classifier returned more than one class that we were able to resolve
-            if (answers.get(0).getConfidenceCategory().equals(ConfidenceCategoryEnum.HIGH)) {
-                answers.subList(Math.min(answers.size(), HIGH_CONF_ANSWER_COUNT), answers.size()).clear();
-            } else {
-                answers.subList(Math.min(answers.size(), LOW_CONF_ANSWER_COUNT), answers.size()).clear();
-            }
         }
 
         String previousMessageId = null;

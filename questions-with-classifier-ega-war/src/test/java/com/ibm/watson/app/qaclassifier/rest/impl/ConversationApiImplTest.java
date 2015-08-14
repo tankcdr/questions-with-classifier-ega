@@ -285,8 +285,7 @@ public class ConversationApiImplTest extends BaseRestApiTest {
             AND.verify_classify_was_invoked_on(availableClassifier);
             AND.verify_the_response_is_not_null();
             AND.verify_the_response_is_a(MessageResponse.class);
-            AND.verify_the_response_number_of_answers_is(ConversationApiImpl.HIGH_CONF_ANSWER_COUNT);
-                AND.verify_the_answer_list_contains_answer("example answer 1", 0.88, ConfidenceCategoryEnum.HIGH);
+            AND.verify_the_answer_list_contains_answer("example answer 1", 0.88, ConfidenceCategoryEnum.HIGH);
             AND.verify_tracked_a_query("What is the NL Classifier?");
     }
     
@@ -309,8 +308,7 @@ public class ConversationApiImplTest extends BaseRestApiTest {
             AND.verify_classify_was_invoked_on(availableClassifier);
             AND.verify_the_response_is_not_null();
             AND.verify_the_response_is_a(MessageResponse.class);
-            AND.verify_the_response_number_of_answers_is(ConversationApiImpl.LOW_CONF_ANSWER_COUNT);
-                AND.verify_the_answer_list_contains_answer("example answer 1", 0.34, ConfidenceCategoryEnum.LOW);
+            AND.verify_the_answer_list_contains_answer("example answer 1", 0.34, ConfidenceCategoryEnum.LOW);
             AND.verify_tracked_a_query("What is the NL Classifier?");
     }
     

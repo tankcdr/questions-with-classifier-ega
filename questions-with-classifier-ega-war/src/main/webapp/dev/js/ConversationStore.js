@@ -136,8 +136,7 @@ function ConversationStore() {
 	 * None of the above was clicked, so let's log that feedback
 	 */
     self.on(action.NONE_OF_THE_ABOVE_CLICKED, function(messageData){
-        // The call to the server is for feedback only, so we don't need 
-        // to wait for it to trigger the broadcast action
+        // Don't wait for feedback API calls to return
         self.trigger(action.NONE_OF_THE_ABOVE_CLICKED_BROADCAST);
         
         var postData = {
@@ -165,6 +164,9 @@ function ConversationStore() {
      * The user clicked on something to provide negative feedback
      */
     self.on(action.NEGATIVE_FEEDBACK_GIVEN, function() {
+    	// Don't wait for feedback API calls to return
+    	self.trigger(action.NEGATIVE_FEEDBACK_RECEIVED_BROADCAST);
+    	
         var postData = {
             "conversationId": self.conversation.conversationId,
             "messageId": self.conversation.messageId,
@@ -180,8 +182,6 @@ function ConversationStore() {
             if (response.status < 200 || response.status >= 300) {
                 throw new Error(response.statusText);
             }
-            
-            self.trigger(action.NEGATIVE_FEEDBACK_RECEIVED_BROADCAST);
         })
         .catch(function(error) {
             self.trigger(action.SERVER_ERROR_BROADCAST, error);
@@ -192,6 +192,9 @@ function ConversationStore() {
      * The user clicked on something to provide positive feedback
      */
     self.on(action.POSITIVE_FEEDBACK_GIVEN, function() {
+    	// Don't wait for feedback API calls to return
+    	self.trigger(action.POSITIVE_FEEDBACK_RECEIVED_BROADCAST);
+    	
         var postData = {
             "conversationId": self.conversation.conversationId,
             "messageId": self.conversation.messageId,
@@ -206,9 +209,7 @@ function ConversationStore() {
         .then(function(response) {
             if (response.status < 200 || response.status >= 300) {
                 throw new Error(response.statusText);
-            }
-            
-            self.trigger(action.POSITIVE_FEEDBACK_RECEIVED_BROADCAST);
+            }   
         })
         .catch(function(error) {
             self.trigger(action.SERVER_ERROR_BROADCAST, error);

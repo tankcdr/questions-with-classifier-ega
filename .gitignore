@@ -2,8 +2,10 @@
 **/bower_components
 **/node
 **/node_modules
-**/webapp/js/bundle.js
-**/webapp/css
+questions-with-classifier-ega-war/src/main/webapp/js/bundle.js
+questions-with-classifier-ega-war/src/main/webapp/css
 **/bootstrap
 **/_bootstrap*
 **/.DS_Store
+*.log
+.settings

@@ -51,8 +51,8 @@ import com.jayway.restassured.http.ContentType;
 public class AddQuestionsToMockClassifier {
     private static final int ALTERNATIVE_ANSWER_COUNT = 9;
     private static final double HIGH_CONFIDENCE = 0.95;
-    private static final double MEDIUM_CONFIDENCE = 0.88;
-    private static final double LOW_CONFIDENCE = 0.1;
+    private static final double LOW_CONFIDENCE = 0.78;
+    private static final double NO_ANSWER_CONFIDENCE = 0.1;
 
     private static final String DEFAULT_URL = "http://localhost:9080";
 
@@ -133,9 +133,9 @@ public class AddQuestionsToMockClassifier {
         System.out.println("Creating mock responses for the sample questions...");
         mockSetup.mockResponse(SampleQuestions.HIGH_CONFIDENCE, "mock_one_answer", HIGH_CONFIDENCE,
                 "This is a question that will be answered by the mock classifier with high confidence");
-        mockSetup.mockResponse(SampleQuestions.LOW_CONFIDENCE, "mock_multiple_answers", MEDIUM_CONFIDENCE,
+        mockSetup.mockResponse(SampleQuestions.LOW_CONFIDENCE, "mock_multiple_answers", LOW_CONFIDENCE,
                 "This is a question that will be answered by the mock classifier with low confidence");
-        mockSetup.mockResponse(SampleQuestions.NO_ANSWERS, "mock_no_answers", LOW_CONFIDENCE,
+        mockSetup.mockResponse(SampleQuestions.NO_ANSWERS, "mock_no_answers", NO_ANSWER_CONFIDENCE,
                 "This is a question that will be answered by the mock classifier with very low confidence");
         System.out.println("Done.");
     }

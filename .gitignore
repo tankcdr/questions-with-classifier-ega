@@ -8,3 +8,4 @@ questions-with-classifier-ega-war/src/main/webapp/css
 **/_bootstrap*
 **/.DS_Store
 *.log
+.settings

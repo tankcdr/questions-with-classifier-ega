@@ -25,10 +25,10 @@ public class SampleQuestions {
     /**
      * This question will return an answer with confidenceCategory=LOW
      */
-    public static final String LOW_CONFIDENCE = "how do I";
+    public static final String LOW_CONFIDENCE = "How does the classifier improve";
 
     /**
      * This question will return an empty answer list
      */
-    public static final String NO_ANSWERS = "hey";
+    public static final String NO_ANSWERS = "no";
 }

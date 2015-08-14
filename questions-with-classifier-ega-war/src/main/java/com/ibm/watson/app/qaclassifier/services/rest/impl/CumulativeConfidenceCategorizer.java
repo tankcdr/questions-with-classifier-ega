@@ -70,30 +70,38 @@ public class CumulativeConfidenceCategorizer extends ConfigurationBasedConfidenc
     
     @Override
     public List<Answer> categorize(List<Answer> answersIn) {
-        final List<Answer> answers = new ArrayList<>(answersIn);
-        if(answers.size() == 0) {
+        
+        if(answersIn.size() == 0) {
             return Collections.emptyList();
         }
         
+        int answerCount = Math.min(answersIn.size(), count);
+        
         // If first answer is greater than the threshold, HIGH
-        Answer firstAnswer = answers.get(0);
+        Answer firstAnswer = answersIn.get(0);
         if(firstAnswer.getConfidence() >= threshold) {
-            for(Answer answer : answers) {
-                answer.setConfidenceCategory(ConfidenceCategoryEnum.HIGH);
-            }
+        	List<Answer> answers = new ArrayList<>();
+        	// Return top answer plus $count refinement suggestions
+        	for (int i = 0; i < Math.min(answerCount + 1, answersIn.size()); i++) {
+        		Answer answer = answersIn.get(i);
+        		answer.setConfidenceCategory(ConfidenceCategoryEnum.HIGH);
+        		answers.add(answer);
+        	}
             return answers;
         }
         
         // If sum of top N answers confidence > threshold, LOW
         double sum = 0.0d;
-        int n = Math.min(answers.size(), count);
-        for(int i = 0; i < n; i++) {
-            sum += answers.get(i).getConfidence();
+        for(int i = 0; i < answerCount; i++) {
+            sum += answersIn.get(i).getConfidence();
         }
         if(sum >= threshold) {
-            for(Answer answer : answers) {
-                answer.setConfidenceCategory(ConfidenceCategoryEnum.LOW);
-            }
+        	final List<Answer> answers = new ArrayList<>();
+        	for (int i = 0; i < answerCount; i++) {
+        		Answer answer = answersIn.get(i);
+        		answer.setConfidenceCategory(ConfidenceCategoryEnum.LOW);
+        		answers.add(answer);
+        	}
             return answers;
         }
         

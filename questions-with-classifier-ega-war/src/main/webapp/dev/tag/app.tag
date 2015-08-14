@@ -67,8 +67,8 @@
         Dispatcher.trigger(routingAction.CONVERSATION_STARTED, conversation.conversationId);
     });
     
-    // Establish our main routing callback to handle changes to the hash
-    riot.route(function(requestedConversationId, requestedMessage, requestedFeedback) {
+    // Establish our main routing callback to handle the conversationId part of url resolution
+    riot.route(function(requestedConversationId) {
         
         // Make sure the url is updated with the current conversationId
         Dispatcher.on(action.GET_CONVERSATION_ID_BROADCAST, function(conversationId) {

@@ -14,10 +14,14 @@
         riot          = require("riot"),
         self          = this;
     
-    self.showWelcome     = false;
-    self.showHome        = false;
-    self.showUnavailable = false;
-    self.showMenu        = false;
+    self.showWelcome         = false;
+    self.showHome            = false;
+    self.showUnavailable     = false;
+    self.showMenu            = false;
+    
+    // Routing control variables
+    self.isValidConversation = false;
+    self.isValidMessage      = false;
     
     hideWelcomeScreen = function() {
         self.showWelcome = false;
@@ -61,26 +65,20 @@
         self.update();
     });
     
-    
+    //----------------------------------------------------------------------------
     // Routing
+    //----------------------------------------------------------------------------
+    
     Dispatcher.on(action.CONVERSATION_STARTED_BROADCAST, function(conversation) {
         Dispatcher.trigger(routingAction.CONVERSATION_STARTED, conversation.conversationId);
     });
     
-    // Establish our main routing callback to handle the conversationId part of url resolution
-    riot.route(function(requestedConversationId) {
-        
-        // Make sure the url is updated with the current conversationId
-        Dispatcher.on(action.GET_CONVERSATION_ID_BROADCAST, function(conversationId) {
-            Dispatcher.trigger(routingAction.CONVERSATION_STARTED, conversationId);
-        });
-        
-        // Make sure we have a started conversation and a current conversation
-        if (!requestedConversationId) {
-            Dispatcher.trigger(action.CONVERSATION_START);
-        }
-        else {
-            Dispatcher.trigger(action.GET_CONVERSATION_ID);
+    // Establish our main routing callback to handle the url resolution
+
+    riot.route(function(requestedConversationId, requestedMessageText, requestedFeedback) {
+
+        if (requestedMessageText) {
+            Dispatcher.trigger(action.ASK_QUESTION, { message : decodeURIComponent(requestedMessageText), referrer : requestedFeedback });
         }
     });
     

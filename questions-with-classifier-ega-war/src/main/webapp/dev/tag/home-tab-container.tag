@@ -9,7 +9,7 @@
         self   = this;
 
     // When a question has been asked
-    Dispatcher.on(action.ASK_QUESTION, function(question) {
+    Dispatcher.on(action.ASKING_QUESTION_BROADCAST, function(question) {
         self.root.classList.add("blurred");
     });
     

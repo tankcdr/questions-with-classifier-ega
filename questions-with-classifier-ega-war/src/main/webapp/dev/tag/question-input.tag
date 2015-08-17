@@ -30,8 +30,9 @@
     
     <script>
     
-    var self   = this,
-        action = require("./action.js");
+    var self          = this,
+        action        = require("./action.js"),
+        routingAction = require("./routingAction.js");
         
 	self.initialviewing              = opts.initialviewing;
 	self.questionPlaceHolderText     = polyglot.t("typicalQuestionText");
@@ -117,7 +118,7 @@
         // Perform validation and fire off our event if this text is valid
         if (questionText && self.validateQuestion(questionText)) {
             self.questionValidationError.classList.remove("active");
-            Dispatcher.trigger(action.ASK_QUESTION, {"message" : questionText});
+            Dispatcher.trigger(routingAction.ASK_QUESTION, { message : questionText });
         }
     }
 

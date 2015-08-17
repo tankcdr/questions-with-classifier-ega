@@ -19,9 +19,10 @@
     
     <script>
     
-    var action    = require("./action.js"),
-        constants = require("./constants.js"),
-        self      = this;
+    var action        = require("./action.js"),
+        routingAction = require("./routingAction.js"),
+        constants     = require("./constants.js"),
+        self          = this;
     
     self.showQuestion   = opts.showquestion === "true" ? true : false;
     self.showSorry      = opts.showsorry    === "true" ? true : false;
@@ -43,7 +44,8 @@
     });
 
     askQuestion(e) {
-        Dispatcher.trigger(action.ASK_QUESTION, {"message" : e.item.answer.canonicalQuestion, "referrer" : constants.refinementQueryType});
+        Dispatcher.trigger(routingAction.ASK_QUESTION, 
+            {"message" : e.item.answer.canonicalQuestion, "referrer" : constants.refinementQueryType});
     }
     
     noneOfTheAbove(e) {

@@ -6,8 +6,9 @@
     <question-input name="questionInputTag" class="question-input-container noAnswer" initialviewing=true></question-input>
     
     <script>
-    var action    = require("./action.js"),
-        self      = this;
+    var action        = require("./action.js"),
+        routingAction = require("./routingAction.js"),
+        self          = this;
     
     // Initially, don't show answers to questions we haven't asked yet
     self.on("mount", function() {
@@ -38,7 +39,6 @@
         self.root.classList.remove("blurred");
         self.root.classList.remove("initialViewing");
         self.opts.hideindicator();
-        
         self.update();
     });
     

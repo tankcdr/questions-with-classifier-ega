@@ -80,7 +80,6 @@ function ConversationStore() {
      * Responds to a query for the current conversation ID, 
      * and triggers a broadcast of the ID if it exists
      */
-    
     self.on(action.GET_CONVERSATION_ID, function() {
         if (!self.conversation || !self.conversation.conversationId) {
             self.trigger(action.CONVERSATION_START);
@@ -90,8 +89,22 @@ function ConversationStore() {
         }
     });
     
+    /**
+     * Responds to a query for the current message ID, 
+     * and triggers a broadcast of the ID if we have one
+     */
+    self.on(action.GET_MESSAGE_ID, function() {
+        if (!self.conversation || !self.conversation.conversationId) {
+            self.trigger(action.CONVERSATION_START);
+        }
+        else {
+            self.trigger(action.GET_MESSAGE_ID_BROADCAST, self.conversation.messageId);
+        }
+    });
+    
 	/**
 	 * Asks a question to the server, updates the local store, triggers a response event
+     * @param {String} Question is the question text
 	 */
     self.on(action.ASK_QUESTION, function(question) {
         

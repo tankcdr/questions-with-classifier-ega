@@ -1,5 +1,5 @@
-# Natural Language Classifier Engagement Gallery Application Overview
-The Natural Language Classifier Engagement Gallery Application uses the Watson Natural Language Classifier Service to show how to build a question-and-answer application that uses minimal ground truth and to demonstrate some best practices for using the service.
+# Questions on the Natural Language Classifier Application Overview
+The Questions on the Natural Language Classifier Application uses the Watson Natural Language Classifier Service to show how to build a question-and-answer application that uses minimal ground truth and to demonstrate some best practices for using the service.
 
 To function correctly this application requires the following items:
 

@@ -54,6 +54,13 @@
         return inputString === "true" ? true : false;
     }
     
+    Dispatcher.on(routingAction.SHOW_HOME_PAGE_BROADCAST, function() {
+        self.initialviewing = "true";
+        self.root.classList.add("noAnswer");
+        self.root.classList.add("initialViewing");
+        self.update();
+    });
+    
     Dispatcher.on(action.ANSWER_RECEIVED_BROADCAST, function(conversation) {
         self.root.classList.remove("active");
 

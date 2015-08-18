@@ -91,6 +91,11 @@
 
     riot.route(function(requestedConversationId, requestedMessageText, requestedFeedback) {
         
+        // Load the home page if we're only getting a conversationId
+        if (requestedConversationId && !requestedMessageText && !requestedFeedback) {
+            Dispatcher.trigger(routingAction.SHOW_HOME_PAGE);
+        }
+        
         // If it's a refinement, we'll handle that elsewhere since we're not showing a simple answer
         if (requestedMessageText && self._isProperFeedback(requestedFeedback)) {
             

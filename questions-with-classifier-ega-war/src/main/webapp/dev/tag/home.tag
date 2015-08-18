@@ -11,19 +11,26 @@
     </div>
 
     <script>
-    var action    = require("./action.js"),
-        self      = this;
+    var action        = require("./action.js"),
+        routingAction = require("./routingAction.js"),
+        self          = this;
+        
     self.subtitleText = polyglot.t("subTitle");
     
     self.on("mount", function() {
-        this.initialViewing = true;
+        self.initialViewing = true;
         self.update();
     });
     
     self.on("update", function() {
         if (self.askQuestionTag && !self.askQuestionTag.classList.contains("initialViewing")) {
-            this.initialViewing = false;
+            self.initialViewing = false;
         }
+    });
+    
+    Dispatcher.on(routingAction.SHOW_HOME_PAGE_BROADCAST, function() {
+        self.initialViewing = true;
+        self.update();
     });
 
     initIndicator(indicatorCalls) {

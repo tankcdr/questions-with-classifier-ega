@@ -43,6 +43,17 @@ function RoutingStore() {
 
         riot.route(routeTo);
     });
+    
+    /*
+     *  A request to show the home page with the current Conversation ID
+     */ 
+    self.on(routingAction.SHOW_HOME_PAGE, function() {
+        // Note:  This will replace an older conversationId with the newest, current one
+        var routeTo = self.currentConversationId;
+        riot.route(routeTo);
+        
+        self.trigger(routingAction.SHOW_HOME_PAGE_BROADCAST);
+    });
 }
 
 if (typeof(module) !== 'undefined') module.exports = RoutingStore;

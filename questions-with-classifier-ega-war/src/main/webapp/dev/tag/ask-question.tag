@@ -29,6 +29,13 @@
         }
     });
     
+    Dispatcher.on(routingAction.SHOW_HOME_PAGE_BROADCAST, function() {
+        self.showAnswer           = true;
+        self.showUnhappyContainer = false;
+        self.root.classList.add("initialViewing");
+        self.update();
+    });
+    
     // When we've received negative feedback
     Dispatcher.on(action.NEGATIVE_FEEDBACK_RECEIVED_BROADCAST, function() {
         
@@ -57,7 +64,6 @@
         
         self.showAnswer           = true;
         self.showUnhappyContainer = false;
-        self.showHappyContainer   = false;
         self.root.classList.remove("blurred");
         self.root.classList.remove("initialViewing");
         self.opts.hideindicator();

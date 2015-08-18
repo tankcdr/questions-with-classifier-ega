@@ -6,12 +6,20 @@
     <question-unanswerable if={this.showQuestionUnanswerable} lowConfidence=true></question-unanswerable>
     
     <script>
-        var self   = this,
-            action = require("./action.js");
+        var self          = this,
+            action        = require("./action.js"),
+            routingAction = require("./routingAction.js");
         
         this.on("mount", function() {
             self.showAnswer = false;
             self.showQuestionUnanswerable = false;
+        });
+        
+        Dispatcher.on(routingAction.SHOW_HOME_PAGE_BROADCAST, function() {
+            self.showAnswer = false;
+            self.showQuestionUnanswerable = false;
+            self.root.classList.add("noAnswer");
+            self.update();
         });
         
         // Determine what to show when an answer has been received.

@@ -68,38 +68,11 @@ function ConversationStore() {
             self.conversation.topQuestions   = data.topQuestions;
             
             self.trigger(action.CONVERSATION_STARTED_BROADCAST, self.conversation);
-            self.trigger(action.GET_CONVERSATION_ID_BROADCAST, self.conversation.conversationId);
             self.trigger(action.TOP_QUESTIONS_BROADCAST, self.conversation.topQuestions);
         })
         .catch(function(error) {
             self.trigger(action.SERVER_ERROR_BROADCAST, error);
         });
-    });
-    
-    /**
-     * Responds to a query for the current conversation ID, 
-     * and triggers a broadcast of the ID if it exists
-     */
-    self.on(action.GET_CONVERSATION_ID, function() {
-        if (!self.conversation || !self.conversation.conversationId) {
-            self.trigger(action.CONVERSATION_START);
-        }
-        else {
-            self.trigger(action.GET_CONVERSATION_ID_BROADCAST, self.conversation.conversationId);
-        }
-    });
-    
-    /**
-     * Responds to a query for the current message ID, 
-     * and triggers a broadcast of the ID if we have one
-     */
-    self.on(action.GET_MESSAGE_ID, function() {
-        if (!self.conversation || !self.conversation.conversationId) {
-            self.trigger(action.CONVERSATION_START);
-        }
-        else {
-            self.trigger(action.GET_MESSAGE_ID_BROADCAST, self.conversation.messageId);
-        }
     });
     
 	/**

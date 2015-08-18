@@ -69,6 +69,20 @@
     // Routing
     //----------------------------------------------------------------------------
     
+    /*
+     * Guarantees the requestedFeedback is a proper type
+     * @param {String} Feedback string
+     * @returns {Boolean} True if this is a type of feedback we can give the server, false otherwise
+     */
+    _isProperFeedback(requestedFeedback) {
+        
+        // Only return accepted feedback types, and make sure we don't execute the "still need help" call, since it's a UI
+        // update and not a new question for the server
+        return (requestedFeedback !== constants.needHelpFeedbackType) &&
+               ((requestedFeedback === constants.refinementQueryType) || (requestedFeedback === constants.topQuestionFeedbackType)) ||
+               (!requestedFeedback);
+    }
+    
     Dispatcher.on(action.CONVERSATION_STARTED_BROADCAST, function(conversation) {
         Dispatcher.trigger(routingAction.CONVERSATION_STARTED, conversation.conversationId);
     });
@@ -76,9 +90,20 @@
     // Establish our main routing callback to handle the url resolution
 
     riot.route(function(requestedConversationId, requestedMessageText, requestedFeedback) {
-
-        if (requestedMessageText) {
-            Dispatcher.trigger(action.ASK_QUESTION, { message : decodeURIComponent(requestedMessageText), referrer : requestedFeedback });
+        
+        // If it's a refinement, we'll handle that elsewhere since we're not showing a simple answer
+        if (requestedMessageText && self._isProperFeedback(requestedFeedback)) {
+            
+            // Don't send a referrer object if we have none
+            var messagePayload     = {};
+            messagePayload.message = decodeURIComponent(requestedMessageText);
+            
+            if (requestedFeedback) {
+                messagePayload.referrer = requestedFeedback;
+            }
+            
+            // Fire off our question
+            Dispatcher.trigger(action.ASK_QUESTION, messagePayload);
         }
     });
     

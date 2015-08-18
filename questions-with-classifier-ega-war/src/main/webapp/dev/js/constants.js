@@ -8,9 +8,11 @@ var constants = {
         WELCOME : 1,
         POPUP   : 2
     }),
-    showPopupCount : 3,
-    visitLevelKey : "visitLevel",
-    refinementQueryType : "REFINEMENT"
+    showPopupCount          : 3,
+    visitLevelKey           : "visitLevel",
+    refinementQueryType     : "REFINEMENT",
+    needHelpFeedbackType    : "NEED_HELP",
+    topQuestionFeedbackType : "TOP_QUESTION"
 };
 
 if (typeof(module) !== 'undefined') module.exports = constants;

@@ -8,6 +8,7 @@
     <script>
     var action        = require("./action.js"),
         routingAction = require("./routingAction.js"),
+        constants     = require("./constants.js"),
         self          = this;
     
     // Initially, don't show answers to questions we haven't asked yet
@@ -17,8 +18,29 @@
         self.update();
     });
 
+    // Handle the routing if we're showing a refinement
+    riot.route(function(requestedConversationId, requestedMessageText, requestedFeedback) {
+        
+        // If it's a refinement, we'll handle that elsewhere since we're not showing a simple answer
+        if (requestedConversationId && requestedFeedback === constants.needHelpFeedbackType) {
+            self.showAnswer           = false;
+            self.showUnhappyContainer = true;
+            self.update();
+        }
+    });
+    
     // When we've received negative feedback
     Dispatcher.on(action.NEGATIVE_FEEDBACK_RECEIVED_BROADCAST, function() {
+        
+        // Do an in-place swap of the URL
+        riot.route.exec(function(requestedConversationId, requestedMessageText, requestedFeedback) {
+            
+            // Tack on REFINEMENT to the feedback section of the url
+            Dispatcher.trigger(routingAction.REFINEMENT_REQUESTED, 
+                { conversationId : requestedConversationId, message : requestedMessageText, referrer : constants.needHelpFeedbackType }
+            );
+        });
+        
         self.showAnswer           = false;
         self.showUnhappyContainer = true;
         self.update();

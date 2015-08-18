@@ -10,6 +10,7 @@
     
     var action        = require("./action.js"),
         routingAction = require("./routingAction.js"),
+        constants     = require("./constants.js"),
         self          = this;
     
     self.on("mount", function() {
@@ -23,7 +24,7 @@
     });
 
     askTopQuestion(e) {
-        Dispatcher.trigger(routingAction.ASK_QUESTION, {"message" : e.item.question.questionText, "referrer" : "TOP_QUESTION"});
+        Dispatcher.trigger(routingAction.ASK_QUESTION, {"message" : e.item.question.questionText, "referrer" : constants.topQuestionFeedbackType});
     }
     
     </script>

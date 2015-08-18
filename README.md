@@ -22,17 +22,87 @@ Ensure that you have the following prerequisites before you start:
 
 ## Stages
 To get started, complete each of the following stages in order:
-  1. [Clone the app and framework repositories from GitHub and build them](#stage-1-clone-the-app-and-framework-repositories-from-GitHub-and-build-them)
-  2. [Set up and deploy the application in BlueMix](#stage-2-set-up-and-deploy-the-application-in-bluemix)
-  3. [Determine the data you want to use](#stage-3-determine-the-data-you-want-to-use)
-  4. [Train the classifier](#stage-4-train-the-classifier)
-  5. [Populate the answer store](#stage-5-populate-the-answer-store)
+  1. [Clone the app project, build it, and deploy to Bluemix](#stage-1-clone-build-and-deploy)
+  2. [Determine the data you want to use](#stage-2-determine-the-data-you-want-to-use)
+  3. [Train the classifier](#stage-3-train-the-classifier)
+  4. [Populate the answer store](#stage-4-populate-the-answer-store)
+
+***
+### Stage 1: Clone, build, and deploy
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/watson-developer-cloud/questions-with-classifier-ega)
+
+Clicking this button will perform the following steps automatically:
+
+1. Prompts you to log in to Bluemix, or to create an account
+2. Creates a Bluemix DevOps Services project and initializes a new Git repository
+3. Clones the questions-with-classifier-ega project into the Git repository
+4. Builds the project
+5. Creates any required Bluemix services
+6. Deploys the app to Bluemix
+
+The DevOps Services project will be set up to automatically deploy changes to Bluemix when you commit new changes to your git repository.
+
+The entire process will take a few minutes to complete.  Even though the app is deployed at this point, you still need to follow the steps below before the app will function correctly.
+
+### Stage 2: Choose which data you want to use
+In this stage, understand the types of data that the app requires and choose whether you want to use sample data or your own data. 
+
+The app requires a trained classifier to work properly. To train the classifier, you need training data, which maps a question to a class. The question-to-class mapping must be in JSON format.
+    
+    question --> class
+
+Additionally, the app requires a populated answer store. The answer store is populated by answers data, which maps the classes from the training data to answers. The class-to-answer mapping must be in JSON format.
+    
+    class --> answer
+	
+Choose whether you want to use sample data or your own data.
+
+#### **Sample data**
+The sample data is in the `training.json` and `answers.json` files in the `questions-with-classifier-ega-war > src > main > resources` directory. To use the sample data, go to [Stage 3: Train the classifier](#stage-3-train-the-classifier). 
+  
+#### **Your own data**
+To use your own data instead of the sample data, see [Prepare your own data for training the classifier and populating the answer store](#prepare-your-own-data-for-training-the-classifier-and-populating-the-answer-store).
 
 ***
 
-### Stage 1: Clone the app and framework repositories from GitHub and build them
-In this stage, download the source code for the app and build it.
+### Stage 3: Train the classifier
+In this stage, train the classifier by using curl. To train the classifier in Eclipse, see [Training the classifier in Eclipse](#training-the-classifier-in-eclipse).
 
+For more information about training the classifier, see the [Classifier API](https://watson.stage1.mybluemix.net/apis/#!/natural-language-classifier).
+
+  1. [Log in to Bluemix](https://console.ng.bluemix.net/) and navigate to your app.
+  2. Click **Show Credentials** for the Natural Language Classifier service that is bound to your app.
+  3. Copy the values of the `url`, `username`, and `password` parameters in the `**credentials**` section.
+  4. From a command prompt, run the following curl command. Replace `<username>`, `<password>`, and `<url>` with the credentials you copied. The questions.csv file is assumed to be in the directory from which you run the command. If necessary, change the path to the file.
+  
+    `curl -u <username>:<password> -F training_data=@questions.csv -F training_metadata="{\"language\":\"en\",\"name\":\"my_classifier\"}" "https://<url>/v1/classifiers"`
+
+***
+
+### Stage 4: Populate the answer store
+In this stage, populate the answer store by using curl. To populate the answer store in Eclipse, see [Populating the answer store in Eclipse](#populating-the-answer-store-in-eclipse)
+
+To see the API that populates the answer store, open https://yourAppName.mybluemix.net/api, and see **Manage**.
+
+  1. Ensure that your app is running. If it's not running, open your app in Bluemix and click **START**.
+  2. Ensure that your answers.json file matches your training.json file.
+  3. From a command prompt, run the following curl command. The answers.json file is assumed to be in the directory from which you run the command. If necessary, change the path to the file.
+
+    `curl -X POST -H "Content-Type: application/json" -d @answers.json http://yourAppName.mybluemix.net/api/v1/manage/answer`
+
+### What to do next
+
+  * Celebrate! You successfully built an app that uses a trained classifier. To see it live, open https://*yourAppName*.mybluemix.net, where *yourAppName* is the specific name of your app.
+  * Explore the Advanced development section to learn how to use your own data and how to use Eclipse to train the classifier and populate the answer store.
+
+***
+
+## Advanced development
+Use the following information to use Eclipse for training the classifier and populating the answer store and to train a classifier on your own data.
+
+### Cloning and building the project yourself
+  If you don't want to use the "Deploy to Bluemix" button, you can clone and build the project yourself.
+  
   1. Clone the framework-ega repository by issuing one of the following commands:
      ```
      git clone https://github.com/watson-developer-cloud/framework-ega.git
@@ -58,7 +128,7 @@ In this stage, download the source code for the app and build it.
 
 ***
 
-### Stage 2: Set up and deploy the application in Bluemix
+### Manually creating Bluemix services and deploying to Bluemix
 In this stage, create your application in Bluemix, bind the necessary services to it, and deploy the application code that you built in Stage 1.
   1. [Log in to Bluemix](https://console.ng.bluemix.net/) and navigate to the Dashboard.
   2. Create your app.
@@ -111,66 +181,10 @@ In this stage, create your application in Bluemix, bind the necessary services t
   7. If the app is not started, click **START**.
   8. To view the home page of the app, open (https://*yourAppName*.mybluemix.net), where *yourAppname* is the specific name of your app. 
   
-**The app and its bound services are deployed. However, you must complete the following stages for the app to function correctly.**
+**The app and its bound services are deployed. However, you must complete the remaining setup stages for the app to function correctly.**
 
 If you want to secure the answer store endpoints, see [Deploying with security](#deploying-with-security).
 ***
-
-### Stage 3: Choose which data you want to use
-In this stage, understand the types of data that the app requires and choose whether you want to use sample data or your own data. 
-
-The app requires a trained classifier to work properly. To train the classifier, you need training data, which maps a question to a class. The question-to-class mapping must be in JSON format.
-    
-    question --> class
-
-Additionally, the app requires a populated answer store. The answer store is populated by answers data, which maps the classes from the training data to answers. The class-to-answer mapping must be in JSON format.
-    
-    class --> answer
-	
-Choose whether you want to use sample data or your own data.
-
-#### **Sample data**
-The sample data is in the `training.json` and `answers.json` files in the `questions-with-classifier-ega-war > src > main > resources` directory. To use the sample data, go to [Stage 4: Train the classifier](#stage-4-train-the-classifier). 
-  
-#### **Your own data**
-To use your own data instead of the sample data, see [Prepare your own data for training the classifier and populating the answer store](#prepare-your-own-data-for-training-the-classifier-and-populating-the-answer-store).
-
-***
-
-### Stage 4: Train the classifier
-In this stage, train the classifier by using curl. To train the classifier in Eclipse, see [Training the classifier in Eclipse](#training-the-classifier-in-eclipse).
-
-For more information about training the classifier, see the [Classifier API](https://watson.stage1.mybluemix.net/apis/#!/natural-language-classifier).
-
-  1. [Log in to Bluemix](https://console.ng.bluemix.net/) and navigate to your app.
-  2. Click **Show Credentials** for the Natural Language Classifier service that is bound to your app.
-  3. Copy the values of the `url`, `username`, and `password` parameters in the `**credentials**` section.
-  4. From a command prompt, run the following curl command. Replace `<username>`, `<password>`, and `<url>` with the credentials you copied. The questions.csv file is assumed to be in the directory from which you run the command. If necessary, change the path to the file.
-  
-    `curl -u <username>:<password> -F training_data=@questions.csv -F training_metadata="{\"language\":\"en\",\"name\":\"my_classifier\"}" "https://<url>/v1/classifiers"`
-
-***
-
-### Stage 5: Populate the answer store
-In this stage, populate the answer store by using curl. To populate the answer store in Eclipse, see [Populating the answer store in Eclipse](#populating-the-answer-store-in-eclipse)
-
-To see the API that populates the answer store, open https://yourAppName.mybluemix.net/api, and see **Manage**.
-
-  1. Ensure that your app is running. If it's not running, open your app in Bluemix and click **START**.
-  2. Ensure that your answers.json file matches your training.json file.
-  3. From a command prompt, run the following curl command. The answers.json file is assumed to be in the directory from which you run the command. If necessary, change the path to the file.
-
-    `curl -X POST -H "Content-Type: application/json" -d @answers.json http://yourAppName.mybluemix.net/api/v1/manage/answer`
-
-### What to do next
-
-  * Celebrate! You successfully built an app that uses a trained classifier. To see it live, open https://*yourAppName*.mybluemix.net, where *yourAppName* is the specific name of your app.
-  * Explore the Advanced development section to learn how to use your own data and how to use Eclipse to train the classifier and populate the answer store.
-
-***
-
-## Advanced development
-Use the following information to use Eclipse for training the classifier and populating the answer store and to train a classifier on your own data.
 
 ### Training the classifier in Eclipse
 If you have loaded the code into Eclipse, you can use an included main class to help with training the Classifier. The program makes REST API calls to the [Classifier API](https://watson.stage1.mybluemix.net/apis/#!/natural-language-classifier), which can be done through any REST client. Although you can train multiple classifier instances, the app does not provide a way to specify which instance to use. By design, the app asks for a list of instances and selects the the first instance in the list. To ensure that you are using the correct instance for your app, train and keep only one instance at a time.
@@ -266,8 +280,8 @@ The methodology for acquiring this data and ensuring that it meets the requireme
 
 Use your JSON files to train the classifier and populate the answer store.
   * Use curl commands
-	* [Train the classifier by using curl](#stage-4-train-the-classifier)
-	* [Populate the answer store by using curl](#stage-5-populate-the-answer-store)
+	* [Train the classifier by using curl](#stage-3-train-the-classifier)
+	* [Populate the answer store by using curl](#stage-4-populate-the-answer-store)
   * Use Eclipse
     * [Train the classifier in Eclipse](#training-the-classifier-in-eclipse)
 	* [Populate the answer store in Eclipse](#populating-the-answer-store)

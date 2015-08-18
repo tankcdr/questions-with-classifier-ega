@@ -28,11 +28,33 @@
       <user name="apiuser" password="${env.MANAGE_API_PASSWORD}" />
   </basicRegistry>
   
+  <!-- The Liberty buildpack can auto-create a dataSource, but it leaves out the connectionManager,
+       which causes connection refused errors when we attempt to use more connections than the SQLDB
+       small plan allows.
+       
+       We define just enough of the datasource here, and the buildpack will add deployment-specific properties.
+       See https://github.com/cloudfoundry/ibm-websphere-liberty-buildpack/blob/master/lib/liberty_buildpack/services/relational_db.rb
+       to understand what elements the build pack looks for and updates.
+       
+       If you are using a database that allows more or fewer than 20 concurrent connections,
+       change maxPoolSize below.
+  -->
+  <dataSource id='db2-app-qaclassifier-db' jdbcDriverRef='db2-driver' jndiName='jdbc/app-qaclassifier-db' statementCacheSize='30' transactional='true'>
+      <!-- properties.db2.jcc stanza will be updated during deployment -->
+      <properties.db2.jcc />
+      <connectionManager maxPoolSize="20" />
+  </dataSource>
+  <jdbcDriver id='db2-driver' libraryRef='db2-library' />
+  <library id='db2-library'>
+      <!-- fileset stanza will be updated during deployment -->
+      <fileset id='db2-fileset' />
+  </library>
+  
   <application name="qaclassifier-app" context-root="/" location="questions-with-classifier-ega-war.war" type="war">
       <application-bnd>
-	      <security-role name="developer">
-	          <user name="apiuser" />
-	      </security-role>
+          <security-role name="developer">
+              <user name="apiuser" />
+          </security-role>
       </application-bnd>
   </application>
 </server>

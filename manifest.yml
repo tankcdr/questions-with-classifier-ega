@@ -1,0 +1,20 @@
+---
+# declared-services is a Bluemix-specific extension.
+# This is used to automatically create service instances when 
+# an application is deployed using the "Deploy to Bluemix" button.
+declared-services:
+  questions-classifier:
+    label: natural_language_classifier
+    plan: standard
+  questions-db:
+    label: sqldb
+    plan: sqldb_free
+
+applications:
+- name: questions-with-classifier
+  memory: 512M
+  path: questions-with-classifier-ega-war/target/questions-with-classifier-ega-war.zip
+  host: questions-with-classifier
+  services:
+  - questions-classifier
+  - questions-db

@@ -1,0 +1,59 @@
+---
+# This describes a basic build and deploy pipeline for the application.
+# The default pipeline that would be created is not sufficient because the
+# application depends on another project that does not currently have published
+# maven artifacts.
+# 
+# Some documentation can be found here:
+# https://www.ng.bluemix.net/docs/manageapps/deployingapps.html#sharetextpipelines
+#
+# This support is currently described as "in development", so the YAML format
+# could change at any time.  The easiest way to recreate this file is to create
+# a pipeline and then append /yaml to the URL, as follows:
+# GET <jazzhub url>/pipeline/user/project/yaml
+stages:
+- name: Build Stage
+  inputs:
+  - type: git
+    branch: master
+  triggers:
+  - type: commit
+  jobs:
+  - name: Build
+    type: builder
+    artifact_dir: questions-with-classifier-ega-war/target
+    build_type: maven
+    script: |-
+      #!/bin/bash
+      # Clone and build supporting framework project
+      git clone https://github.com/watson-developer-cloud/framework-ega.git
+      cd framework-ega
+      mvn -B install
+
+      # Build application project
+      cd ..
+      mvn -B package
+
+      # Copy manifest file to archive directory so it can be used by the deploy job
+      cp manifest.yml ${ARCHIVE_DIR}
+- name: Deploy Stage
+  inputs:
+  - type: job
+    stage: Build Stage
+    job: Build
+  triggers:
+  - type: stage
+  jobs:
+  - name: Deploy to dev
+    type: deployer
+    target:
+      url: ${CF_TARGET_URL}
+      organization: ${CF_ORGANIZATION}
+      space: ${CF_SPACE}
+      application: ${CF_APP}
+    script: |
+      #!/bin/bash
+      cf push "${CF_APP}" -p questions-with-classifier-ega-war.zip
+
+      # View logs
+      #cf logs "${CF_APP}" --recent
